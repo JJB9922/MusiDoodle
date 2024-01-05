@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": false,
-      "cwd": "/home/jack/Documents/projects/MusiDoodle/MusiDoodle",
-      "program": "/home/jack/Documents/projects/MusiDoodle/MusiDoodle/build/Debug/outDebug",
+      "cwd": "/home/jack/Documents/projects/MusiDoodle/src/MusiDoodle",
+      "program": "/home/jack/Documents/projects/MusiDoodle/src/MusiDoodle/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
