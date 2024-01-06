@@ -19,14 +19,14 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_newTrackButton_pressed()
+void MainWindow::on_newTrackButton_clicked()
 {
     close();
     trackEditorWindow = new TrackEditorWindow(this);
     trackEditorWindow->show();
 }
 
-void MainWindow::on_loadTrackButton_pressed()
+void MainWindow::on_loadTrackButton_clicked()
 {
     loadFromFile();
 }
@@ -56,7 +56,7 @@ void MainWindow::loadFromFile()
         // Pass in the file to the track editor via param
         // QDataStream in(&file);
         // in.setVersion(QDataStream::Qt_4_5);
-        // track.clear();   // clear existing track
+        // track.clear();   // clear existing track... Shouldnt be necessary unless load is added to track editor view
         // in >> track;
     }
 }

@@ -23,8 +23,8 @@ public slots:
     void loadFromFile();
 
 private slots:
-    void on_newTrackButton_pressed();
-    void on_loadTrackButton_pressed();
+    void on_newTrackButton_clicked();
+    void on_loadTrackButton_clicked();
 
 private:
     Ui::MainWindow *ui;

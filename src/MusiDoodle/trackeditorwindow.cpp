@@ -19,7 +19,6 @@ void TrackEditorWindow::on_actionQuit_triggered()
     close();
 }
 
-
 void TrackEditorWindow::on_actionSave_As_triggered()
 {
     saveToFile();
@@ -44,7 +43,7 @@ void TrackEditorWindow::saveToFile()
 
         QDataStream out(&file);
         out.setVersion(QDataStream::Qt_4_5);
-        // out << stufftogoout;
+        //out << track; //still need to define track data
     }
 
 
