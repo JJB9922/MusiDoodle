@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QtWidgets>
 #include "trackeditorwindow.h"
 
 QT_BEGIN_NAMESPACE
@@ -17,6 +18,9 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+
+public slots:
+    void loadFromFile();
 
 private slots:
     void on_newTrackButton_pressed();

@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QAction>
+#include <QtWidgets>
 
 namespace Ui {
 class TrackEditorWindow;
