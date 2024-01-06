@@ -1,5 +1,6 @@
 #include "trackeditorwindow.h"
 #include "ui_trackeditorwindow.h"
+#include <QtWidgets>
 
 TrackEditorWindow::TrackEditorWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -21,6 +22,16 @@ void TrackEditorWindow::on_actionQuit_triggered()
 
 void TrackEditorWindow::on_actionSave_As_triggered()
 {
+    saveToFile();
+}
+
+void TrackEditorWindow::saveToFile()
+{
+    QString fileName = QFileDialog::getSaveFileName(this,
+                                                    tr("Save Track"),
+                                                    "",
+                                                    tr("Track (*.tr);;All Files (*)"));
+
 
 }
 

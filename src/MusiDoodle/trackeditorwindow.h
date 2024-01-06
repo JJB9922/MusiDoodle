@@ -2,6 +2,7 @@
 #define TRACKEDITORWINDOW_H
 
 #include <QMainWindow>
+#include <QAction>
 
 namespace Ui {
 class TrackEditorWindow;
@@ -15,6 +16,9 @@ public:
     explicit TrackEditorWindow(QWidget *parent = nullptr);
     ~TrackEditorWindow();
 
+public slots:
+    void saveToFile();
+
 private slots:
     void on_actionQuit_triggered();
 
@@ -22,6 +26,7 @@ private slots:
 
 private:
     Ui::TrackEditorWindow *ui;
+    QAction *actionSave_As;
 };
 
 #endif // TRACKEDITORWINDOW_H
