@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "trackeditorwindow.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -17,7 +18,13 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+private slots:
+    void on_newTrackButton_pressed();
+    void on_loadTrackButton_pressed();
+
 private:
     Ui::MainWindow *ui;
+    TrackEditorWindow *trackEditorWindow;
+
 };
 #endif // MAINWINDOW_H

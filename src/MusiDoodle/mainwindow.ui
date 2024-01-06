@@ -486,12 +486,12 @@
    <bool>false</bool>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QLabel" name="label">
+   <widget class="QLabel" name="mainTitleLabel">
     <property name="geometry">
      <rect>
-      <x>230</x>
-      <y>10</y>
-      <width>321</width>
+      <x>10</x>
+      <y>0</y>
+      <width>781</width>
       <height>91</height>
      </rect>
     </property>
@@ -507,17 +507,17 @@
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QTreeView" name="treeView">
+   <widget class="QTreeView" name="recentTrackTree">
     <property name="geometry">
      <rect>
       <x>20</x>
       <y>310</y>
       <width>761</width>
-      <height>241</height>
+      <height>261</height>
      </rect>
     </property>
    </widget>
-   <widget class="QLabel" name="label_2">
+   <widget class="QLabel" name="recentTrackLabel">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -538,15 +538,15 @@
    <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>10</x>
       <y>100</y>
-      <width>761</width>
+      <width>781</width>
       <height>161</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
-      <widget class="QPushButton" name="pushButton">
+      <widget class="QPushButton" name="newTrackButton">
        <property name="font">
         <font>
          <pointsize>12</pointsize>
@@ -564,7 +564,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_2">
+      <widget class="QPushButton" name="loadTrackButton">
        <property name="enabled">
         <bool>true</bool>
        </property>
@@ -586,22 +586,6 @@
      </item>
     </layout>
    </widget>
-  </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>800</width>
-     <height>22</height>
-    </rect>
-   </property>
-   <widget class="QMenu" name="menuMusiDoodle_Menu">
-    <property name="title">
-     <string>MusiDoodle Menu</string>
-    </property>
-   </widget>
-   <addaction name="menuMusiDoodle_Menu"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>

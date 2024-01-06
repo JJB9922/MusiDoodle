@@ -23,6 +23,9 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(MusiDoodle
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
+        trackeditorwindow.h trackeditorwindow.cpp trackeditorwindow.ui
+
+
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET MusiDoodle APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
