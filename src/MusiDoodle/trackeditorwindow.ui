@@ -41,6 +41,7 @@
     <addaction name="actionSave"/>
     <addaction name="actionSave_As"/>
     <addaction name="separator"/>
+    <addaction name="actionMain_Menu"/>
     <addaction name="actionQuit"/>
    </widget>
    <addaction name="menuFile"/>
@@ -68,6 +69,14 @@
    </property>
    <property name="shortcut">
     <string>Shift+Q</string>
+   </property>
+  </action>
+  <action name="actionMain_Menu">
+   <property name="text">
+    <string>Main Menu</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+M</string>
    </property>
   </action>
  </widget>

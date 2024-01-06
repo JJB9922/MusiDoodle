@@ -32,6 +32,21 @@ void TrackEditorWindow::saveToFile()
                                                     "",
                                                     tr("Track (*.tr);;All Files (*)"));
 
+    if (fileName.isEmpty())
+        return;
+    else {
+        QFile file(fileName);
+        if (!file.open(QIODevice::WriteOnly)) {
+            QMessageBox::information(this, tr("Unable to open file"),
+                                     file.errorString());
+            return;
+        }
+
+        QDataStream out(&file);
+        out.setVersion(QDataStream::Qt_4_5);
+        // out << stufftogoout;
+    }
+
 
 }
 
