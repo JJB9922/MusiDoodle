@@ -1,5 +1,6 @@
 #include "trackeditorwindow.h"
 #include "ui_trackeditorwindow.h"
+#include "newcomponentpicker.h"
 #include <QtWidgets>
 
 TrackEditorWindow::TrackEditorWindow(QWidget *parent)
@@ -45,7 +46,15 @@ void TrackEditorWindow::saveToFile()
         out.setVersion(QDataStream::Qt_4_5);
         //out << track; //still need to define track data
     }
+}
 
+void TrackEditorWindow::on_addComponentButton_clicked()
+{
+    //This needs to pop open a modal which allows user to choose what type of component they want to add to the track
+    //Factory
 
+    NewComponentPicker newComponentPicker;
+    newComponentPicker.setModal(true);
+    newComponentPicker.exec();
 }
 

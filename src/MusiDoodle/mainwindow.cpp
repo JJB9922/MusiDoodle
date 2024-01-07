@@ -22,6 +22,7 @@ MainWindow::~MainWindow()
 void MainWindow::on_newTrackButton_clicked()
 {
     close();
+    delete ui;
     trackEditorWindow = new TrackEditorWindow(this);
     trackEditorWindow->show();
 }
@@ -59,5 +60,11 @@ void MainWindow::loadFromFile()
         // track.clear();   // clear existing track... Shouldnt be necessary unless load is added to track editor view
         // in >> track;
     }
+}
+
+
+void MainWindow::on_pushButton_clicked()
+{
+    QCoreApplication::quit();
 }
 

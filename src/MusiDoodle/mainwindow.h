@@ -26,6 +26,8 @@ private slots:
     void on_newTrackButton_clicked();
     void on_loadTrackButton_clicked();
 
+    void on_pushButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     TrackEditorWindow *trackEditorWindow;

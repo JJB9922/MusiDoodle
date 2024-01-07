@@ -24,6 +24,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
         trackeditorwindow.h trackeditorwindow.cpp trackeditorwindow.ui
+        newcomponentpicker.h newcomponentpicker.cpp newcomponentpicker.ui
 
 
     )

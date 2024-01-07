@@ -25,6 +25,8 @@ private slots:
 
     void on_actionSave_As_triggered();
 
+    void on_addComponentButton_clicked();
+
 private:
     Ui::TrackEditorWindow *ui;
     QAction *actionSave_As;
