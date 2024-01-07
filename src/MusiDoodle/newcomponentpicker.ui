@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>newcomponentpicker</class>
- <widget class="QDialog" name="newcomponentpicker">
+ <class>NewComponentPicker</class>
+ <widget class="QDialog" name="NewComponentPicker">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -29,29 +29,78 @@
     <set>QDialogButtonBox::Cancel</set>
    </property>
   </widget>
+  <widget class="QPushButton" name="lyricComponentButton">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>40</y>
+     <width>161</width>
+     <height>161</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Lyric Component</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="chordComponentButton">
+   <property name="geometry">
+    <rect>
+     <x>330</x>
+     <y>40</y>
+     <width>161</width>
+     <height>161</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Chord Component</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="tabComponentButton">
+   <property name="geometry">
+    <rect>
+     <x>180</x>
+     <y>290</y>
+     <width>161</width>
+     <height>161</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Tab Component</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="sheetMusicComponentButton">
+   <property name="geometry">
+    <rect>
+     <x>480</x>
+     <y>290</y>
+     <width>161</width>
+     <height>161</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Sheet Music Component</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="notebookComponentButton">
+   <property name="geometry">
+    <rect>
+     <x>610</x>
+     <y>40</y>
+     <width>161</width>
+     <height>161</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Notebook Component</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections>
   <connection>
    <sender>buttonBox</sender>
-   <signal>accepted()</signal>
-   <receiver>newcomponentpicker</receiver>
-   <slot>accept()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>157</x>
-     <y>274</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>newcomponentpicker</receiver>
+   <receiver>NewComponentPicker</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
