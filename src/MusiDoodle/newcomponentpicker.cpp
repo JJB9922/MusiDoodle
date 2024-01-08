@@ -26,6 +26,8 @@ void NewComponentPicker::on_lyricComponentButton_clicked()
     ComponentFactory* componentCreator = new LyricsComponentCreator();
     trackEditorWindow->createComponent(componentCreator);
     close();
+    delete trackEditorWindow;
+    delete componentCreator;
 }
 
 void NewComponentPicker::on_chordComponentButton_clicked()
@@ -34,6 +36,8 @@ void NewComponentPicker::on_chordComponentButton_clicked()
     ComponentFactory* componentCreator = new ChordsComponentCreator();
     trackEditorWindow->createComponent(componentCreator);
     close();
+    delete trackEditorWindow;
+    delete componentCreator;
 }
 
 
@@ -43,6 +47,8 @@ void NewComponentPicker::on_notebookComponentButton_clicked()
     ComponentFactory* componentCreator = new NotebookComponentCreator();
     trackEditorWindow->createComponent(componentCreator);
     close();
+    delete trackEditorWindow;
+    delete componentCreator;
 }
 
 
@@ -52,6 +58,8 @@ void NewComponentPicker::on_tabComponentButton_clicked()
     ComponentFactory* componentCreator = new TabComponentCreator();
     trackEditorWindow->createComponent(componentCreator);
     close();
+    delete trackEditorWindow;
+    delete componentCreator;
 }
 
 
@@ -61,5 +69,7 @@ void NewComponentPicker::on_sheetMusicComponentButton_clicked()
     ComponentFactory* componentCreator = new SheetMusicComponentCreator();
     trackEditorWindow->createComponent(componentCreator);
     close();
+    delete trackEditorWindow;
+    delete componentCreator;
 }
 

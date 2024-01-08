@@ -11,6 +11,8 @@ public:
     void CreateComponent() {
         Component* ptr = this->FactoryMethod();
     }
+
+    virtual ~ComponentFactory() = default;
 };
 
 class LyricsComponentCreator : public ComponentFactory {
