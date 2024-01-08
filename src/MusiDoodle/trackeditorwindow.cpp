@@ -52,8 +52,6 @@ void TrackEditorWindow::saveToFile()
 
 void TrackEditorWindow::on_addComponentButton_clicked()
 {
-    //This needs to pop open a modal which allows user to choose what type of component they want to add to the track
-    //Factory for components perhaps
     NewComponentPicker newComponentPicker;
     newComponentPicker.setModal(true);
     newComponentPicker.exec();

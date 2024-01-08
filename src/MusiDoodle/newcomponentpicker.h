@@ -17,6 +17,10 @@ public:
 
 private slots:
     void on_lyricComponentButton_clicked();
+    void on_chordComponentButton_clicked();
+    void on_notebookComponentButton_clicked();
+    void on_tabComponentButton_clicked();
+    void on_sheetMusicComponentButton_clicked();
 
 private:
     Ui::NewComponentPicker *ui;
