@@ -62,7 +62,6 @@ void MainWindow::loadFromFile()
     }
 }
 
-
 void MainWindow::on_pushButton_clicked()
 {
     QCoreApplication::quit();
