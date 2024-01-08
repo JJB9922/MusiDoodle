@@ -15,6 +15,9 @@ public:
     explicit NewComponentPicker(QWidget *parent = nullptr);
     ~NewComponentPicker();
 
+private slots:
+    void on_lyricComponentButton_clicked();
+
 private:
     Ui::NewComponentPicker *ui;
 };

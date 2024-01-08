@@ -1,6 +1,8 @@
 #include "trackeditorwindow.h"
 #include "ui_trackeditorwindow.h"
 #include "newcomponentpicker.h"
+#include "componentfactory.h"
+
 #include <QtWidgets>
 
 TrackEditorWindow::TrackEditorWindow(QWidget *parent)
@@ -55,5 +57,9 @@ void TrackEditorWindow::on_addComponentButton_clicked()
     NewComponentPicker newComponentPicker;
     newComponentPicker.setModal(true);
     newComponentPicker.exec();
+}
+
+void TrackEditorWindow::createComponent(ComponentFactory* componentCreator){
+    componentCreator->ComponentFactory::CreateComponent();
 }
 
