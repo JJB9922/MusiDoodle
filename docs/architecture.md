@@ -1,3 +1,4 @@
+```mermaid
 classDiagram
   class App {
     + start()
@@ -10,20 +11,12 @@ classDiagram
     + quit()
   }
 
-  class NewTrackScreen {
+  class EditTrackScreen {
     + showComponentsModal()
   }
 
-  interface ComponentFactory {
+  class ComponentFactory {
     + createComponent(type: ComponentType) : Component
-  }
-
-  enum ComponentType {
-    LYRIC
-    NOTEBOOK
-    CHORDS
-    TABS
-    SHEET_MUSIC
   }
 
   class Component {
@@ -51,12 +44,12 @@ classDiagram
   }
 
   App --> HomePage
-  App --> NewTrackScreen
-  NewTrackScreen --> ComponentFactory
-  NewTrackScreen --> Component
+  HomePage --> EditTrackScreen
+  EditTrackScreen --> ComponentFactory
   ComponentFactory --> Component
   Component --> LyricsComponent
   Component --> NotebookComponent
   Component --> ChordsComponent
   Component --> TabsComponent
   Component --> SheetMusicComponent
+```
