@@ -15,6 +15,7 @@ NewComponentPicker::NewComponentPicker(QWidget *parent)
     ui->setupUi(this);
 }
 
+
 NewComponentPicker::~NewComponentPicker()
 {
     delete ui;
