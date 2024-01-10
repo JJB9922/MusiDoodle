@@ -13,6 +13,7 @@ class NewComponentPicker : public QDialog
 
 public:
     explicit NewComponentPicker(QWidget *parent = nullptr);
+
     ~NewComponentPicker();
 
 private slots:

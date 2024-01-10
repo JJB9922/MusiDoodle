@@ -54,7 +54,7 @@ void TrackEditorWindow::saveToFile()
 
 void TrackEditorWindow::on_addComponentButton_clicked()
 {
-    NewComponentPicker newComponentPicker;
+    NewComponentPicker newComponentPicker(this);
     newComponentPicker.setModal(true);
     newComponentPicker.exec();
     auto button = findChild<QPushButton*>("addComponentButton");
@@ -63,8 +63,8 @@ void TrackEditorWindow::on_addComponentButton_clicked()
         auto buttonPos = button->geometry().topLeft();
         std::cout << buttonPos.x() << std::endl;
         std::cout << buttonPos.y() << std::endl;
+        button->hide();
     }
-
 }
 
 void TrackEditorWindow::createComponent(ComponentFactory* componentCreator){
