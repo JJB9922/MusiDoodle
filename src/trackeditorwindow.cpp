@@ -3,6 +3,8 @@
 #include "newcomponentpicker.h"
 #include "componentfactory.h"
 
+#include <iostream>
+#include <string>
 #include <QtWidgets>
 
 TrackEditorWindow::TrackEditorWindow(QWidget *parent)
@@ -55,6 +57,14 @@ void TrackEditorWindow::on_addComponentButton_clicked()
     NewComponentPicker newComponentPicker;
     newComponentPicker.setModal(true);
     newComponentPicker.exec();
+    auto button = findChild<QPushButton*>("addComponentButton");
+
+    if (button) {
+        auto buttonPos = button->geometry().topLeft();
+        std::cout << buttonPos.x() << std::endl;
+        std::cout << buttonPos.y() << std::endl;
+    }
+
 }
 
 void TrackEditorWindow::createComponent(ComponentFactory* componentCreator){
