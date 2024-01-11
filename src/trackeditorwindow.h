@@ -21,7 +21,7 @@ public:
 
 public slots:
     void saveToFile();
-    void createComponent(ComponentFactory* componentCreator);
+    void createComponent(std::string componentType);
 
 private slots:
     void on_actionQuit_triggered();
@@ -32,6 +32,7 @@ private slots:
 private:
     Ui::TrackEditorWindow *ui;
     QAction *actionSave_As;
+    QLineEdit *lineEdit;
 };
 
 #endif // TRACKEDITORWINDOW_H

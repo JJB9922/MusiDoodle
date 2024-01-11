@@ -1,6 +1,9 @@
 #include "component.h"
+#include "trackeditorwindow.h"
+
 #include <iostream>
 #include <QMessageBox>
+#include <string>
 
 Component::Component() {
     std::cout << "Component Created!" << std::endl;
@@ -11,6 +14,10 @@ LyricsComponent::LyricsComponent() {
     QMessageBox msgBox;
     msgBox.setText("Lyrics Component Created!");
     msgBox.exec();
+
+    std::string lyricEditorComponentType = "QLineEdit";
+    TrackEditorWindow *trackEditorWindow = new TrackEditorWindow();
+    trackEditorWindow->createComponent(lyricEditorComponentType);
 }
 
 ChordsComponent::ChordsComponent() {

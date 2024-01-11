@@ -1,6 +1,10 @@
 #include "componentfactory.h"
 #include "component.h"
 
+#include <iostream>
+#include <qlineedit.h>
+#include <qtextedit.h>
+
 //To create a component:
 // ComponentFactory* componentCreator = new LyricsComponentCreator();
 // componentCreator->CreateComponent();
@@ -15,6 +19,7 @@ Component* ChordsComponentCreator::FactoryMethod() {
 
 Component* NotebookComponentCreator::FactoryMethod() {
     return new NotebookComponent();
+    QTextEdit *notebookEditor = new QTextEdit();
 }
 
 Component* TabComponentCreator::FactoryMethod() {

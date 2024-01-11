@@ -17,6 +17,7 @@ public:
 
 class LyricsComponentCreator : public ComponentFactory {
     Component* FactoryMethod() override;
+
 };
 
 class ChordsComponentCreator : public ComponentFactory {

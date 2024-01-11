@@ -67,7 +67,29 @@ void TrackEditorWindow::on_addComponentButton_clicked()
     }
 }
 
-void TrackEditorWindow::createComponent(ComponentFactory* componentCreator){
-    componentCreator->ComponentFactory::CreateComponent();
+void TrackEditorWindow::createComponent(std::string componentType) {
+    if (componentType.empty()) return;
+
+    QWidget* componentToUse = nullptr;
+
+    if (componentType == "QLineEdit") {
+        componentToUse = new QLineEdit();
+    } else if (componentType == "QPushButton") {
+        componentToUse = new QPushButton("Button");
+    }
+
+    if (!componentToUse) {
+        std::cerr << "Unsupported component type: " << componentType << std::endl;
+        return;
+    }
+
+    componentToUse->setFixedSize(256, 16);
+    auto button = findChild<QPushButton*>("addComponentButton");
+
+    if (button) {
+        auto buttonPos = button->mapToGlobal(button->geometry().topLeft());
+        componentToUse->move(buttonPos.x() + button->width() + 10, buttonPos.y());
+        componentToUse->show();
+    }
 }
 

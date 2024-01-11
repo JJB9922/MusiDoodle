@@ -3,6 +3,8 @@
 #include "ui_newcomponentpicker.h"
 #include "componentfactory.h"
 
+#include <iostream>
+
 NewComponentPicker::NewComponentPicker(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::NewComponentPicker)
@@ -17,18 +19,15 @@ NewComponentPicker::~NewComponentPicker()
 
 void NewComponentPicker::on_lyricComponentButton_clicked()
 {
-    TrackEditorWindow* trackEditorWindow = new TrackEditorWindow();
-    ComponentFactory* componentCreator = new LyricsComponentCreator();
-    trackEditorWindow->createComponent(componentCreator);
+    LyricsComponentCreator *lyricComponent = new LyricsComponentCreator;
+    lyricComponent->CreateComponent();
     close();
-    delete componentCreator;
+    delete lyricComponent;
 }
 
 void NewComponentPicker::on_chordComponentButton_clicked()
 {
-    TrackEditorWindow* trackEditorWindow = new TrackEditorWindow();
     ComponentFactory* componentCreator = new ChordsComponentCreator();
-    trackEditorWindow->createComponent(componentCreator);
     close();
     delete componentCreator;
 }
@@ -36,9 +35,7 @@ void NewComponentPicker::on_chordComponentButton_clicked()
 
 void NewComponentPicker::on_notebookComponentButton_clicked()
 {
-    TrackEditorWindow* trackEditorWindow = new TrackEditorWindow();
     ComponentFactory* componentCreator = new NotebookComponentCreator();
-    trackEditorWindow->createComponent(componentCreator);
     close();
     delete componentCreator;
 }
@@ -46,9 +43,7 @@ void NewComponentPicker::on_notebookComponentButton_clicked()
 
 void NewComponentPicker::on_tabComponentButton_clicked()
 {
-    TrackEditorWindow* trackEditorWindow = new TrackEditorWindow();
     ComponentFactory* componentCreator = new TabComponentCreator();
-    trackEditorWindow->createComponent(componentCreator);
     close();
     delete componentCreator;
 }
@@ -56,9 +51,7 @@ void NewComponentPicker::on_tabComponentButton_clicked()
 
 void NewComponentPicker::on_sheetMusicComponentButton_clicked()
 {
-    TrackEditorWindow* trackEditorWindow = new TrackEditorWindow();
     ComponentFactory* componentCreator = new SheetMusicComponentCreator();
-    trackEditorWindow->createComponent(componentCreator);
     close();
     delete componentCreator;
 }
