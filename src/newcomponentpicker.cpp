@@ -1,13 +1,8 @@
 #include "newcomponentpicker.h"
-#include "trackeditorwindow.h"
 #include "ui_newcomponentpicker.h"
-#include "componentfactory.h"
-
-#include <iostream>
 
 NewComponentPicker::NewComponentPicker(QWidget *parent)
-    : QDialog(parent)
-    , ui(new Ui::NewComponentPicker)
+    : QDialog(parent), ui(new Ui::NewComponentPicker)
 {
     ui->setupUi(this);
 }
@@ -17,42 +12,37 @@ NewComponentPicker::~NewComponentPicker()
     delete ui;
 }
 
+QString NewComponentPicker::getSelectedComponentType() const
+{
+    return selectedComponentType;
+}
+
 void NewComponentPicker::on_lyricComponentButton_clicked()
 {
-    LyricsComponentCreator *lyricComponent = new LyricsComponentCreator;
-    lyricComponent->CreateComponent();
-    close();
-    delete lyricComponent;
+    selectedComponentType = "Lyrics";
+    accept();
 }
 
 void NewComponentPicker::on_chordComponentButton_clicked()
 {
-    ComponentFactory* componentCreator = new ChordsComponentCreator();
-    close();
-    delete componentCreator;
+    selectedComponentType = "Chords";
+    accept();
 }
-
 
 void NewComponentPicker::on_notebookComponentButton_clicked()
 {
-    ComponentFactory* componentCreator = new NotebookComponentCreator();
-    close();
-    delete componentCreator;
+    selectedComponentType = "Notebook";
+    accept();
 }
-
 
 void NewComponentPicker::on_tabComponentButton_clicked()
 {
-    ComponentFactory* componentCreator = new TabComponentCreator();
-    close();
-    delete componentCreator;
+    selectedComponentType = "Tab";
+    accept();
 }
-
 
 void NewComponentPicker::on_sheetMusicComponentButton_clicked()
 {
-    ComponentFactory* componentCreator = new SheetMusicComponentCreator();
-    close();
-    delete componentCreator;
+    selectedComponentType = "SheetMusic";
+    accept();
 }
-

@@ -1,35 +1,58 @@
 #ifndef COMPONENT_H
 #define COMPONENT_H
 
-class Component
+#include <QWidget>
+#include <QLineEdit>
+
+class Component : public QWidget
 {
+    Q_OBJECT
+
 public:
-    Component();
+    Component(QWidget *parent = nullptr);
+
+signals:
+    void componentCreated(QWidget *component);
 };
 
-class LyricsComponent : public Component {
+class LyricsComponent : public Component
+{
+    Q_OBJECT
+
 public:
-    LyricsComponent();
+    LyricsComponent(QWidget *parent = nullptr);
 };
 
-class ChordsComponent : public Component {
+class ChordsComponent : public Component
+{
+    Q_OBJECT
+
 public:
-    ChordsComponent();
+    ChordsComponent(QWidget *parent = nullptr);
 };
 
-class NotebookComponent : public Component {
+class NotebookComponent : public Component
+{
+    Q_OBJECT
+
 public:
-    NotebookComponent();
+    NotebookComponent(QWidget *parent = nullptr);
 };
 
-class TabComponent : public Component {
+class TabComponent : public Component
+{
+    Q_OBJECT
+
 public:
-    TabComponent();
+    TabComponent(QWidget *parent = nullptr);
 };
 
-class SheetMusicComponent : public Component {
+class SheetMusicComponent : public Component
+{
+    Q_OBJECT
+
 public:
-    SheetMusicComponent();
+    SheetMusicComponent(QWidget *parent = nullptr);
 };
 
 #endif // COMPONENT_H

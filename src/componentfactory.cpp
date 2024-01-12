@@ -1,31 +1,24 @@
 #include "componentfactory.h"
 #include "component.h"
 
-#include <iostream>
-#include <qlineedit.h>
-#include <qtextedit.h>
+#include <QLineEdit>
 
-//To create a component:
-// ComponentFactory* componentCreator = new LyricsComponentCreator();
-// componentCreator->CreateComponent();
-
-Component* LyricsComponentCreator::FactoryMethod() {
-    return new LyricsComponent();
+QWidget* LyricsComponentCreator::FactoryMethod() {
+    return new QLineEdit();
 }
 
-Component* ChordsComponentCreator::FactoryMethod() {
-    return new ChordsComponent();
+QWidget* ChordsComponentCreator::FactoryMethod() {
+
 }
 
-Component* NotebookComponentCreator::FactoryMethod() {
-    return new NotebookComponent();
-    QTextEdit *notebookEditor = new QTextEdit();
+QWidget* NotebookComponentCreator::FactoryMethod() {
+
 }
 
-Component* TabComponentCreator::FactoryMethod() {
-    return new TabComponent();
+QWidget* TabComponentCreator::FactoryMethod() {
+
 }
 
-Component* SheetMusicComponentCreator::FactoryMethod() {
-    return new SheetMusicComponent();
+QWidget* SheetMusicComponentCreator::FactoryMethod() {
+
 }

@@ -1,47 +1,51 @@
+// component.cpp
 #include "component.h"
-#include "trackeditorwindow.h"
-
 #include <iostream>
 #include <QMessageBox>
-#include <string>
+#include <QLineEdit>
 
-Component::Component() {
+Component::Component(QWidget *parent) : QWidget(parent)
+{
     std::cout << "Component Created!" << std::endl;
 }
 
-LyricsComponent::LyricsComponent() {
+LyricsComponent::LyricsComponent(QWidget *parent) : Component(parent)
+{
     std::cout << "Lyrics Component Created!" << std::endl;
     QMessageBox msgBox;
     msgBox.setText("Lyrics Component Created!");
     msgBox.exec();
 
-    std::string lyricEditorComponentType = "QLineEdit";
-    TrackEditorWindow *trackEditorWindow = new TrackEditorWindow();
-    trackEditorWindow->createComponent(lyricEditorComponentType);
+    QLineEdit *lyricEditorComponentType = new QLineEdit();
+    emit componentCreated(lyricEditorComponentType);
 }
 
-ChordsComponent::ChordsComponent() {
+ChordsComponent::ChordsComponent(QWidget *parent) : Component(parent)
+{
     std::cout << "Chords Component Created!" << std::endl;
     QMessageBox msgBox;
     msgBox.setText("Chords Component Created!");
     msgBox.exec();
 }
 
-NotebookComponent::NotebookComponent() {
+NotebookComponent::NotebookComponent(QWidget *parent) : Component(parent)
+{
     std::cout << "Notebook Component Created!" << std::endl;
     QMessageBox msgBox;
     msgBox.setText("Notebook Component Created!");
     msgBox.exec();
 }
 
-TabComponent::TabComponent() {
+TabComponent::TabComponent(QWidget *parent) : Component(parent)
+{
     std::cout << "Tab Component Created!" << std::endl;
     QMessageBox msgBox;
     msgBox.setText("Tab Component Created!");
     msgBox.exec();
 }
 
-SheetMusicComponent::SheetMusicComponent() {
+SheetMusicComponent::SheetMusicComponent(QWidget *parent) : Component(parent)
+{
     std::cout << "Sheet Music Component Created!" << std::endl;
     QMessageBox msgBox;
     msgBox.setText("Sheet Music Component Created!");

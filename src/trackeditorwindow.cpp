@@ -4,14 +4,15 @@
 #include "componentfactory.h"
 
 #include <iostream>
-#include <string>
 #include <QtWidgets>
+#include <QAction>
 
 TrackEditorWindow::TrackEditorWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::TrackEditorWindow)
 {
     ui->setupUi(this);
+    connect(ui->addComponentButton, SIGNAL(clicked()), this, SLOT(on_addComponentButton_clicked()));
 }
 
 TrackEditorWindow::~TrackEditorWindow()
@@ -54,42 +55,44 @@ void TrackEditorWindow::saveToFile()
 
 void TrackEditorWindow::on_addComponentButton_clicked()
 {
-    NewComponentPicker newComponentPicker(this);
+    static NewComponentPicker newComponentPicker(this);
     newComponentPicker.setModal(true);
-    newComponentPicker.exec();
-    auto button = findChild<QPushButton*>("addComponentButton");
 
-    if (button) {
-        auto buttonPos = button->geometry().topLeft();
-        std::cout << buttonPos.x() << std::endl;
-        std::cout << buttonPos.y() << std::endl;
-        button->hide();
+    if (newComponentPicker.exec() == QDialog::Accepted) {
+        QString selectedComponentType = newComponentPicker.getSelectedComponentType();
+
+        ComponentFactory* factory = nullptr;
+
+        if (selectedComponentType == "Lyrics") {
+            factory = new LyricsComponentCreator();
+        } else if (selectedComponentType == "Chords") {
+            factory = new ChordsComponentCreator();
+        } // ...
+
+        if (factory) {
+            QWidget* componentToUse = factory->CreateComponent();
+            createComponent(componentToUse);
+            delete factory;
+        }
     }
 }
 
-void TrackEditorWindow::createComponent(std::string componentType) {
-    if (componentType.empty()) return;
-
-    QWidget* componentToUse = nullptr;
-
-    if (componentType == "QLineEdit") {
-        componentToUse = new QLineEdit();
-    } else if (componentType == "QPushButton") {
-        componentToUse = new QPushButton("Button");
-    }
-
+void TrackEditorWindow::createComponent(QWidget* componentToUse)
+{
     if (!componentToUse) {
-        std::cerr << "Unsupported component type: " << componentType << std::endl;
+        std::cerr << "Invalid component." << std::endl;
         return;
     }
 
-    componentToUse->setFixedSize(256, 16);
+    QSize size = qApp->screens()[0]->size();
+    componentToUse->setFixedSize(size.width() - 128, 32);
     auto button = findChild<QPushButton*>("addComponentButton");
 
     if (button) {
         auto buttonPos = button->mapToGlobal(button->geometry().topLeft());
-        componentToUse->move(buttonPos.x() + button->width() + 10, buttonPos.y());
+        button->hide();
+        componentToUse->move(buttonPos.x(), buttonPos.y() - 82);
+        componentToUse->setParent(this);
         componentToUse->show();
     }
 }
-

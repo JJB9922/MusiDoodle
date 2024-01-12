@@ -1,11 +1,11 @@
 #ifndef TRACKEDITORWINDOW_H
 #define TRACKEDITORWINDOW_H
 
+#import "componentfactory.h"
+
 #include <QMainWindow>
 #include <QAction>
 #include <QtWidgets>
-
-#include "componentfactory.h"
 
 namespace Ui {
 class TrackEditorWindow;
@@ -21,7 +21,7 @@ public:
 
 public slots:
     void saveToFile();
-    void createComponent(std::string componentType);
+    void createComponent(QWidget* componentToUse);
 
 private slots:
     void on_actionQuit_triggered();
