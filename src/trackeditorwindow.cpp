@@ -85,7 +85,7 @@ void TrackEditorWindow::createComponent(QWidget* componentToUse)
     }
 
     QSize size = qApp->screens()[0]->size();
-    componentToUse->setFixedSize(size.width() - 32, 32);
+    componentToUse->setFixedSize(size.width() - 128, 32);
     auto button = findChild<QPushButton*>("addComponentButton");
 
     if (button) {

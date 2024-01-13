@@ -2,7 +2,8 @@
 #include "component.h"
 #include <iostream>
 #include <QMessageBox>
-#include <QLineEdit>
+#include <QWidget>
+#include <QComboBox>
 
 Component::Component(QWidget *parent) : QWidget(parent)
 {
@@ -26,6 +27,9 @@ ChordsComponent::ChordsComponent(QWidget *parent) : Component(parent)
     QMessageBox msgBox;
     msgBox.setText("Chords Component Created!");
     msgBox.exec();
+
+    QComboBox *chordEditorComponentType = new QComboBox();
+    emit componentCreated(chordEditorComponentType);
 }
 
 NotebookComponent::NotebookComponent(QWidget *parent) : Component(parent)
