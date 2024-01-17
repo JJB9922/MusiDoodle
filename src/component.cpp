@@ -13,13 +13,13 @@ Component::Component(QWidget *parent) : QWidget(parent)
 
 LyricsComponent::LyricsComponent(QWidget *parent) : Component(parent)
 {
+    QLineEdit *lyricEditorComponentType = new QLineEdit();
+    emit componentCreated(lyricEditorComponentType);
+
     std::cout << "Lyrics Component Created!" << std::endl;
     QMessageBox msgBox;
     msgBox.setText("Lyrics Component Created!");
     msgBox.exec();
-
-    QLineEdit *lyricEditorComponentType = new QLineEdit();
-    emit componentCreated(lyricEditorComponentType);
 }
 
 ChordsComponent::ChordsComponent(QWidget *parent) : Component(parent)

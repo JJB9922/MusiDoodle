@@ -91,10 +91,12 @@ void TrackEditorWindow::createComponent(QWidget* componentToUse)
     auto button = findChild<QPushButton*>("addComponentButton");
 
     if (button) {
-        auto buttonPos = button->mapToGlobal(button->geometry().center());
+        auto buttonPos = button->pos();
         button->hide();
-        componentToUse->move(buttonPos.x(), buttonPos.y());
+        componentToUse->move(buttonPos.x(), buttonPos.y() + 16);
         componentToUse->setParent(this);
         componentToUse->show();
     }
+
+    // Need to spawn a new button and (recurse?)
 }
