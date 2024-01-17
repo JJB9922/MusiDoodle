@@ -4,6 +4,7 @@
 #include <QMessageBox>
 #include <QWidget>
 #include <QComboBox>
+#include <QTextEdit>
 
 Component::Component(QWidget *parent) : QWidget(parent)
 {
@@ -38,6 +39,9 @@ NotebookComponent::NotebookComponent(QWidget *parent) : Component(parent)
     QMessageBox msgBox;
     msgBox.setText("Notebook Component Created!");
     msgBox.exec();
+
+    QTextEdit *notebookEditorComponentType = new QTextEdit();
+    emit componentCreated(notebookEditorComponentType);
 }
 
 TabComponent::TabComponent(QWidget *parent) : Component(parent)

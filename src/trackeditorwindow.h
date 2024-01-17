@@ -1,8 +1,6 @@
 #ifndef TRACKEDITORWINDOW_H
 #define TRACKEDITORWINDOW_H
 
-#import "componentfactory.h"
-
 #include <QMainWindow>
 #include <QAction>
 #include <QtWidgets>
@@ -26,7 +24,6 @@ public slots:
 private slots:
     void on_actionQuit_triggered();
     void on_actionSave_As_triggered();
-
     void on_addComponentButton_clicked();
 
 private:

@@ -67,7 +67,9 @@ void TrackEditorWindow::on_addComponentButton_clicked()
             factory = new LyricsComponentCreator();
         } else if (selectedComponentType == "Chords") {
             factory = new ChordsComponentCreator();
-        } // ...
+        } else if (selectedComponentType == "Notebook"){
+            factory = new NotebookComponentCreator();
+        }
 
         if (factory) {
             QWidget* componentToUse = factory->CreateComponent();
