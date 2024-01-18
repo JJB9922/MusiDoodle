@@ -81,6 +81,8 @@ void TrackEditorWindow::on_addComponentButton_clicked()
 
 void TrackEditorWindow::createComponent(QWidget* componentToUse)
 {
+    static int count{};
+
     if (!componentToUse) {
         std::cerr << "Invalid component." << std::endl;
         return;
@@ -96,6 +98,10 @@ void TrackEditorWindow::createComponent(QWidget* componentToUse)
         componentToUse->move(buttonPos.x(), buttonPos.y() + 16);
         componentToUse->setParent(this);
         componentToUse->show();
+        QPushButton* newButton = new QPushButton(QString("+"), this);
+        newButton->move(buttonPos.x(), buttonPos.y() + 64);
+        newButton->setVisible(true);
+
     }
 
     // Need to spawn a new button and (recurse?)
