@@ -90,7 +90,7 @@ void TrackEditorWindow::createComponent(QWidget* componentToUse)
 
     QSize size = qApp->screens()[0]->size();
     componentToUse->setFixedSize(size.width() - 128, 32);
-    auto button = findChild<QPushButton*>("addComponentButton");
+    auto button = findChild<QPushButton*>();
 
     if (button) {
         auto buttonPos = button->pos();
@@ -102,7 +102,7 @@ void TrackEditorWindow::createComponent(QWidget* componentToUse)
         newButton->move(buttonPos.x(), buttonPos.y() + 64);
         newButton->setVisible(true);
 
+        connect(newButton, &QPushButton::clicked, this, &TrackEditorWindow::on_addComponentButton_clicked);
     }
 
-    // Need to spawn a new button and (recurse?)
 }
