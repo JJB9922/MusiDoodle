@@ -9,7 +9,10 @@ QWidget* LyricsComponentCreator::FactoryMethod() {
 }
 
 QWidget* ChordsComponentCreator::FactoryMethod() {
-    return new QComboBox();
+    QComboBox* newComboBox = new QComboBox();
+    newComboBox->addItem(QString("A"));
+    newComboBox->addItem(QString("B"));
+    return newComboBox;
 }
 
 QWidget* NotebookComponentCreator::FactoryMethod() {
@@ -17,9 +20,9 @@ QWidget* NotebookComponentCreator::FactoryMethod() {
 }
 
 QWidget* TabComponentCreator::FactoryMethod() {
-
+    return new QLineEdit();
 }
 
 QWidget* SheetMusicComponentCreator::FactoryMethod() {
-
+    return new QLineEdit();
 }
