@@ -1,18 +1,20 @@
 #include "trackeditorwindow.h"
 #include "ui_trackeditorwindow.h"
-#include "newcomponentpicker.h"
-#include "componentfactory.h"
 
 #include <iostream>
 #include <QtWidgets>
-#include <QAction>
 
 TrackEditorWindow::TrackEditorWindow(QWidget *parent)
-    : QMainWindow(parent)
-    , ui(new Ui::TrackEditorWindow)
+    : QMainWindow(parent),
+    ui(new Ui::TrackEditorWindow)
 {
     ui->setupUi(this);
-    connect(ui->addComponentButton, SIGNAL(clicked()), this, SLOT(on_addComponentButton_clicked()));
+
+    QPushButton* initialButton = new QPushButton(QString("+"), this);
+    initialButton->move(10, 50);
+    initialButton->setVisible(true);
+
+    connect(initialButton, &QPushButton::clicked, this, &TrackEditorWindow::showNewComponentPicker);
 }
 
 TrackEditorWindow::~TrackEditorWindow()
@@ -53,7 +55,7 @@ void TrackEditorWindow::saveToFile()
     }
 }
 
-void TrackEditorWindow::on_addComponentButton_clicked()
+void TrackEditorWindow::showNewComponentPicker()
 {
     static NewComponentPicker newComponentPicker(this);
     newComponentPicker.setModal(true);
@@ -61,20 +63,19 @@ void TrackEditorWindow::on_addComponentButton_clicked()
     if (newComponentPicker.exec() == QDialog::Accepted) {
         QString selectedComponentType = newComponentPicker.getSelectedComponentType();
 
-        ComponentFactory* factory = nullptr;
+        std::unique_ptr<ComponentFactory> factory;
 
         if (selectedComponentType == "Lyrics") {
-            factory = new LyricsComponentCreator();
+            factory = std::make_unique<LyricsComponentCreator>();
         } else if (selectedComponentType == "Chords") {
-            factory = new ChordsComponentCreator();
-        } else if (selectedComponentType == "Notebook"){
-            factory = new NotebookComponentCreator();
+            factory = std::make_unique<ChordsComponentCreator>();
+        } else if (selectedComponentType == "Notebook") {
+            factory = std::make_unique<NotebookComponentCreator>();
         }
 
         if (factory) {
             QWidget* componentToUse = factory->CreateComponent();
             createComponent(componentToUse);
-            delete factory;
         }
     }
 }
@@ -90,7 +91,7 @@ void TrackEditorWindow::createComponent(QWidget* componentToUse)
 
     QSize size = qApp->screens()[0]->size();
     componentToUse->setFixedSize(size.width() - 128, 32);
-    auto button = findChild<QPushButton*>();
+    auto button = qobject_cast<QPushButton*>(sender());
 
     if (button) {
         auto buttonPos = button->pos();
@@ -102,7 +103,6 @@ void TrackEditorWindow::createComponent(QWidget* componentToUse)
         newButton->move(buttonPos.x(), buttonPos.y() + 64);
         newButton->setVisible(true);
 
-        connect(newButton, &QPushButton::clicked, this, &TrackEditorWindow::on_addComponentButton_clicked);
+        connect(newButton, &QPushButton::clicked, this, &TrackEditorWindow::showNewComponentPicker);
     }
-
 }

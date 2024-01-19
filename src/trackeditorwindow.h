@@ -2,8 +2,9 @@
 #define TRACKEDITORWINDOW_H
 
 #include <QMainWindow>
-#include <QAction>
-#include <QtWidgets>
+#include <QPushButton>
+#include "newcomponentpicker.h"
+#include "componentfactory.h"
 
 namespace Ui {
 class TrackEditorWindow;
@@ -14,22 +15,19 @@ class TrackEditorWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit TrackEditorWindow(QWidget *parent = nullptr);
+    TrackEditorWindow(QWidget *parent = nullptr);
     ~TrackEditorWindow();
-
-public slots:
-    void saveToFile();
-    void createComponent(QWidget* componentToUse);
 
 private slots:
     void on_actionQuit_triggered();
     void on_actionSave_As_triggered();
-    void on_addComponentButton_clicked();
+    void showNewComponentPicker();  // Declaration of the new slot
 
 private:
+    void saveToFile();
+    void createComponent(QWidget *componentToUse);
+
     Ui::TrackEditorWindow *ui;
-    QAction *actionSave_As;
-    QLineEdit *lineEdit;
 };
 
 #endif // TRACKEDITORWINDOW_H
