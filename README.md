@@ -9,3 +9,5 @@ more of a playing companion!
 
 ## Stack
 C+, Qt
+
+Libs for Tab/sheet music?
