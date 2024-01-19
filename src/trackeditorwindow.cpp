@@ -11,7 +11,7 @@ TrackEditorWindow::TrackEditorWindow(QWidget *parent)
     ui->setupUi(this);
 
     QPushButton* initialButton = new QPushButton(QString("+"), this);
-    initialButton->move(10, 50);
+    initialButton->move(10, 64);
     initialButton->setVisible(true);
 
     connect(initialButton, &QPushButton::clicked, this, &TrackEditorWindow::showNewComponentPicker);
