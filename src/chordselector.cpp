@@ -51,7 +51,13 @@ void ChordSelector::onBackClicked() {
 }
 
 void ChordSelector::initializeNotes() {
-    QStringList notes = {"Ab", "A", "A#", "Bb", "B", "B#"};
+    QStringList notes = {"Ab", "A", "A#",
+                         "Bb", "B", "B#",
+                         "Cb", "C", "C#",
+                         "Db", "D", "D#",
+                         "Eb", "E", "E#",
+                         "Fb", "F", "F#",
+                         "Gb", "G", "G#"};
     noteListWidget->addItems(notes);
 }
 
@@ -66,6 +72,6 @@ void ChordSelector::initializeMajorVariations() {
 }
 
 void ChordSelector::initializeMinorVariations() {
-    QStringList minorVariations = {"m", "min7", "min9"};
+    QStringList minorVariations = {"m", "m7", "m9"};
     minorVariationListWidget->addItems(minorVariations);
 }
