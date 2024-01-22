@@ -26,7 +26,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         trackeditorwindow.h trackeditorwindow.cpp trackeditorwindow.ui
         newcomponentpicker.h newcomponentpicker.cpp newcomponentpicker.ui
         componentfactory.h componentfactory.cpp
-        component.h component.cpp
+
         chordselector.h chordselector.cpp
 
 

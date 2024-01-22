@@ -1,4 +1,5 @@
 #include "componentfactory.h"
+#include "chordselector.h"
 
 #include <QLineEdit>
 #include <QComboBox>
@@ -9,10 +10,8 @@ QWidget* LyricsComponentCreator::FactoryMethod() {
 }
 
 QWidget* ChordsComponentCreator::FactoryMethod() {
-    QComboBox* newComboBox = new QComboBox();
-    newComboBox->addItem(QString("A"));
-    newComboBox->addItem(QString("B"));
-    return newComboBox;
+    ChordSelector* chordSelector = new ChordSelector();
+    return chordSelector;
 }
 
 QWidget* NotebookComponentCreator::FactoryMethod() {
