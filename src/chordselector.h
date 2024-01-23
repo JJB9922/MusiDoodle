@@ -7,6 +7,7 @@
 #include <QListWidget>
 #include <QStackedWidget>
 #include <QPushButton>
+#include <QTextBrowser>
 
 class ChordSelector : public QWidget {
     Q_OBJECT
@@ -31,6 +32,7 @@ private:
     QListWidget* majorVariationListWidget;
     QListWidget* minorVariationListWidget;
     QListWidget* blankListWidget;
+    QTextBrowser* chordBox;
     QStackedWidget* stackedWidget;
     QPushButton* backButton;
 };

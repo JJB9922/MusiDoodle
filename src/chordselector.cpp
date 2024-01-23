@@ -1,7 +1,11 @@
 #include "chordselector.h"
 
+#include <QTextBrowser>
+
 ChordSelector::ChordSelector(QWidget *parent) : QWidget(parent) {
     QVBoxLayout* mainLayout = new QVBoxLayout(this);
+    chordBox = new QTextBrowser(this);
+    chordBox->setFixedSize(128, 32);
 
     noteListWidget = new QListWidget(this);
     connect(noteListWidget, &QListWidget::itemClicked, this, &ChordSelector::onNoteClicked);
@@ -24,6 +28,7 @@ ChordSelector::ChordSelector(QWidget *parent) : QWidget(parent) {
     backButton = new QPushButton("Back", this);
     connect(backButton, &QPushButton::clicked, this, &ChordSelector::onBackClicked);
 
+    mainLayout->addWidget(chordBox);
     mainLayout->addWidget(stackedWidget);
     mainLayout->addWidget(backButton);
 
@@ -37,8 +42,10 @@ ChordSelector::ChordSelector(QWidget *parent) : QWidget(parent) {
 void ChordSelector::onNoteClicked(QListWidgetItem* item) {
     if (item->text() != "CUSTOM") {
         stackedWidget->setCurrentIndex(1);
+        chordBox->setText(item->text());
     } else {
         stackedWidget ->setCurrentIndex(stackedWidget->count()-1);
+        chordBox->setReadOnly(false);
     }
 }
 
@@ -57,6 +64,7 @@ void ChordSelector::onBackClicked() {
         stackedWidget->setCurrentIndex(currentIndex - 1);
     } else {
         stackedWidget->setCurrentIndex(0);
+        chordBox->setReadOnly(true);
     }
 }
 
