@@ -10,8 +10,7 @@ QWidget* LyricsComponentCreator::FactoryMethod() {
 }
 
 QWidget* ChordsComponentCreator::FactoryMethod() {
-    ChordSelector* chordSelector = new ChordSelector();
-    return chordSelector;
+    return QLineEdit();
 }
 
 QWidget* NotebookComponentCreator::FactoryMethod() {

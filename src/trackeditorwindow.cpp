@@ -1,5 +1,7 @@
 #include "trackeditorwindow.h"
 #include "ui_trackeditorwindow.h"
+#include "chordselector.h"
+
 
 #include <iostream>
 #include <QtWidgets>
@@ -9,10 +11,17 @@ TrackEditorWindow::TrackEditorWindow(QWidget *parent)
     ui(new Ui::TrackEditorWindow)
 {
     ui->setupUi(this);
+    QSize size = qApp->screens()[0]->size();
 
     QPushButton* initialButton = new QPushButton(QString("+"), this);
     initialButton->move(10, 64);
     initialButton->setVisible(true);
+
+    ChordSelector* chordSelector = new ChordSelector(this);
+    chordSelector->setParent(this);
+    chordSelector->setFixedSize(size.width()/3 - 64, 256);
+    chordSelector->move(2*(size.width()/3) + 16, 64);
+    //chordSelector->setVisible(true);
 
     connect(initialButton, &QPushButton::clicked, this, &TrackEditorWindow::showNewComponentPicker);
 }
@@ -88,7 +97,7 @@ void TrackEditorWindow::createComponent(QWidget* componentToUse)
     }
 
     QSize size = qApp->screens()[0]->size();
-    componentToUse->setFixedSize(size.width() - 128, 32);
+    componentToUse->setFixedSize(2*(size.width()/3), 32);
     auto button = qobject_cast<QPushButton*>(sender());
 
     if (button) {
