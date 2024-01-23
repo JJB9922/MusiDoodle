@@ -4,6 +4,7 @@
 
 ChordSelector::ChordSelector(QWidget *parent) : QWidget(parent) {
     QVBoxLayout* mainLayout = new QVBoxLayout(this);
+
     chordBox = new QTextBrowser(this);
     chordBox->setFixedSize(128, 32);
 
@@ -14,6 +15,8 @@ ChordSelector::ChordSelector(QWidget *parent) : QWidget(parent) {
     connect(typeListWidget, &QListWidget::itemClicked, this, &ChordSelector::onTypeClicked);
 
     majorVariationListWidget = new QListWidget(this);
+    connect(majorVariationListWidget, &QListWidget::itemClicked, this, &ChordSelector::onVariationClicked);
+
     minorVariationListWidget = new QListWidget(this);
 
     blankListWidget = new QListWidget(this);
@@ -42,7 +45,8 @@ ChordSelector::ChordSelector(QWidget *parent) : QWidget(parent) {
 void ChordSelector::onNoteClicked(QListWidgetItem* item) {
     if (item->text() != "CUSTOM") {
         stackedWidget->setCurrentIndex(1);
-        chordBox->setText(item->text());
+        chosenNote = item->text();
+        chordBox->setText(chosenNote);
     } else {
         stackedWidget ->setCurrentIndex(stackedWidget->count()-1);
         chordBox->setReadOnly(false);
@@ -84,6 +88,10 @@ void ChordSelector::initializeTypes() {
                          "Dominant", "Suspended", "Augmented",
                          "Extended"};
     typeListWidget->addItems(types);
+}
+
+void ChordSelector::onVariationClicked(QListWidgetItem* item) {
+    chordBox->setText(chosenNote + item->text());
 }
 
 void ChordSelector::initializeMajorVariations() {

@@ -18,6 +18,7 @@ public:
 private slots:
     void onNoteClicked(QListWidgetItem* item);
     void onTypeClicked(QListWidgetItem* item);
+    void onVariationClicked(QListWidgetItem* item);
     void onBackClicked();
 
 private:
@@ -26,6 +27,8 @@ private:
     void initializeMajorVariations();
     void initializeMinorVariations();
     void initializeBlankList();
+
+    QString chosenNote;
 
     QListWidget* noteListWidget;
     QListWidget* typeListWidget;
