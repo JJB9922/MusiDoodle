@@ -24,11 +24,13 @@ private:
     void initializeTypes();
     void initializeMajorVariations();
     void initializeMinorVariations();
+    void initializeBlankList();
 
     QListWidget* noteListWidget;
     QListWidget* typeListWidget;
     QListWidget* majorVariationListWidget;
     QListWidget* minorVariationListWidget;
+    QListWidget* blankListWidget;
     QStackedWidget* stackedWidget;
     QPushButton* backButton;
 };

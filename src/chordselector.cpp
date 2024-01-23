@@ -10,14 +10,16 @@ ChordSelector::ChordSelector(QWidget *parent) : QWidget(parent) {
     connect(typeListWidget, &QListWidget::itemClicked, this, &ChordSelector::onTypeClicked);
 
     majorVariationListWidget = new QListWidget(this);
-
     minorVariationListWidget = new QListWidget(this);
+
+    blankListWidget = new QListWidget(this);
 
     stackedWidget = new QStackedWidget(this);
     stackedWidget->addWidget(noteListWidget);
     stackedWidget->addWidget(typeListWidget);
     stackedWidget->addWidget(majorVariationListWidget);
     stackedWidget->addWidget(minorVariationListWidget);
+    stackedWidget->addWidget(blankListWidget);
 
     backButton = new QPushButton("Back", this);
     connect(backButton, &QPushButton::clicked, this, &ChordSelector::onBackClicked);
@@ -29,10 +31,15 @@ ChordSelector::ChordSelector(QWidget *parent) : QWidget(parent) {
     initializeTypes();
     initializeMajorVariations();
     initializeMinorVariations();
+    initializeBlankList();
 }
 
 void ChordSelector::onNoteClicked(QListWidgetItem* item) {
-    stackedWidget->setCurrentIndex(1);
+    if (item->text() != "CUSTOM") {
+        stackedWidget->setCurrentIndex(1);
+    } else {
+        stackedWidget ->setCurrentIndex(stackedWidget->count()-1);
+    }
 }
 
 void ChordSelector::onTypeClicked(QListWidgetItem* item) {
@@ -41,12 +48,15 @@ void ChordSelector::onTypeClicked(QListWidgetItem* item) {
     } else if (item->text() == "Minor") {
         stackedWidget->setCurrentIndex(3);
     }
+    //Need to do rest
 }
 
 void ChordSelector::onBackClicked() {
     int currentIndex = stackedWidget->currentIndex();
-    if (currentIndex > 0) {
+    if (currentIndex > 0 && currentIndex != stackedWidget->count() - 1) {
         stackedWidget->setCurrentIndex(currentIndex - 1);
+    } else {
+        stackedWidget->setCurrentIndex(0);
     }
 }
 
@@ -57,12 +67,14 @@ void ChordSelector::initializeNotes() {
                          "Db", "D", "D#",
                          "Eb", "E", "E#",
                          "Fb", "F", "F#",
-                         "Gb", "G", "G#"};
+                         "Gb", "G", "G#", "CUSTOM"};
     noteListWidget->addItems(notes);
 }
 
 void ChordSelector::initializeTypes() {
-    QStringList types = {"Major", "Minor"};
+    QStringList types = {"Major", "Minor", "Diminished",
+                         "Dominant", "Suspended", "Augmented",
+                         "Extended"};
     typeListWidget->addItems(types);
 }
 
@@ -75,3 +87,9 @@ void ChordSelector::initializeMinorVariations() {
     QStringList minorVariations = {"m", "m7", "m9"};
     minorVariationListWidget->addItems(minorVariations);
 }
+
+void ChordSelector::initializeBlankList() {
+    QStringList blankList = {"Type a custom chord above."};
+    blankListWidget->addItems(blankList);
+}
+
