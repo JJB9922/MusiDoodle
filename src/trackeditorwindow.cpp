@@ -14,14 +14,15 @@ TrackEditorWindow::TrackEditorWindow(QWidget *parent)
     QSize size = qApp->screens()[0]->size();
 
     QPushButton* initialButton = new QPushButton(QString("+"), this);
-    initialButton->move(10, 64);
+    initialButton->move(size.width()/128, size.width()/24);
     initialButton->setVisible(true);
 
     ChordSelector* chordSelector = new ChordSelector(this);
     chordSelector->setParent(this);
-    chordSelector->setFixedSize(size.width()/3 - 64, 256);
-    chordSelector->move(2*(size.width()/3) + 16, 64);
-    //chordSelector->setVisible(true);
+
+    //dewiniaeth fathemategol ardderchog
+    chordSelector->setFixedSize(size.width()/3 - size.width()/20, size.height()/2);
+    chordSelector->move(2*(size.width()/3) + size.width()/48, size.height()/14);
 
     connect(initialButton, &QPushButton::clicked, this, &TrackEditorWindow::showNewComponentPicker);
 }
@@ -103,11 +104,11 @@ void TrackEditorWindow::createComponent(QWidget* componentToUse)
     if (button) {
         auto buttonPos = button->pos();
         button->hide();
-        componentToUse->move(buttonPos.x(), buttonPos.y() + 16);
+        componentToUse->move(buttonPos.x(), buttonPos.y() + size.height()/128);
         componentToUse->setParent(this);
         componentToUse->show();
         QPushButton* newButton = new QPushButton(QString("+"), this);
-        newButton->move(buttonPos.x(), buttonPos.y() + 64);
+        newButton->move(buttonPos.x(), buttonPos.y() + size.height()/20);
         newButton->setVisible(true);
 
         connect(newButton, &QPushButton::clicked, this, &TrackEditorWindow::showNewComponentPicker);
