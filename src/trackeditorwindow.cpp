@@ -24,6 +24,11 @@ TrackEditorWindow::TrackEditorWindow(QWidget *parent)
     chordSelector->setFixedSize(size.width()/3 - size.width()/20, size.height()/2);
     chordSelector->move(2*(size.width()/3) + size.width()/48, size.height()/14);
 
+    QLineEdit* chordBox = new QLineEdit(this);
+    chordBox->setParent(this);
+    chordBox->setFixedSize(size.width()/4 - size.width()/20, 32);
+    chordBox->move(2*(size.width()/3) + size.width()/48 + 8, size.height()/20 - 4);
+
     connect(initialButton, &QPushButton::clicked, this, &TrackEditorWindow::showNewComponentPicker);
 }
 
