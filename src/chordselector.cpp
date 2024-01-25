@@ -100,7 +100,7 @@ void ChordSelector::initializeMajorVariations() {
 }
 
 void ChordSelector::initializeMinorVariations() {
-    QStringList minorVariations = {"m", "m7", "m9"};
+    QStringList minorVariations = {"m", "m7", "m9", "m7-9"};
     minorVariationListWidget->addItems(minorVariations);
 }
 
