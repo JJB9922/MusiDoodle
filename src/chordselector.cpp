@@ -54,12 +54,32 @@ void ChordSelector::onNoteClicked(QListWidgetItem* item) {
 }
 
 void ChordSelector::onTypeClicked(QListWidgetItem* item) {
-    if (item->text() == "Major") {
+    QString text = item->text();
+    switch (text) {
+      case "Major":
         stackedWidget->setCurrentIndex(2);
-    } else if (item->text() == "Minor") {
+        break;
+      case "Minor":
         stackedWidget->setCurrentIndex(3);
-    }
-    //Need to do rest
+        break;
+      case "Diminished":
+        stackedWidget->setCurrentIndex(4);
+        break;
+      case "Dominant":
+        stackedWidget->setCurrentIndex(5);
+        break;
+      case "Suspended":
+        stackedWidget->setCurrentIndex(6);
+        break;
+      case "Augmented":
+        stackedWidget->setCurrentIndex(7);
+        break;
+      case "Extended":
+        stackedWidget->setCurrentIndex(8);
+        break;
+      default:
+        std::cerr << "Wtf? chordselector initial sel" << std::endl;
+        break;
 }
 
 void ChordSelector::onBackClicked() {
