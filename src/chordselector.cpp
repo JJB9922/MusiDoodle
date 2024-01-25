@@ -95,7 +95,7 @@ void ChordSelector::onVariationClicked(QListWidgetItem* item) {
 }
 
 void ChordSelector::initializeMajorVariations() {
-    QStringList majorVariations = {"maj", "maj7", "maj9"};
+    QStringList majorVariations = {"maj", "maj6", "maj7", "maj9", "maj7-9", "4", "7", "7-9" };
     majorVariationListWidget->addItems(majorVariations);
 }
 
