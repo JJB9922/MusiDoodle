@@ -59,7 +59,7 @@ void ChordSelector::onNoteClicked(QListWidgetItem* item) {
     }
 }
 
-QLabel* ChordSelector::createDragLabel(const QString& text)
+QLabel* ChordSelector::createDragLabel(QString& text)
 {
     QLabel *label = new QLabel(text, this);
     label->setAutoFillBackground(true);
@@ -73,45 +73,25 @@ void ChordSelector::putDragLabelOnScreen(QString* word){
     int y = 5;
 
     if (!chordBox->toPlainText().isEmpty()) {
-            QLabel* wordLabel = createDragLabel(*word);
-            wordLabel->move(x, y);
-            wordLabel->show();
-            wordLabel->setAttribute(Qt::WA_DeleteOnClose);
-            x += wordLabel->width() + 2;
-            if (x >= 245) {
-                x = 5;
-                y += wordLabel->height() + 2;
+        QLabel* wordLabel = createDragLabel(*word);
+        wordLabel->setGeometry(x, y, wordLabel->width(), wordLabel->height());
+        wordLabel->show();
+        wordLabel->setAttribute(Qt::WA_DeleteOnClose);
+        x += wordLabel->width() + 2;
+        if (x >= 245) {
+            x = 5;
+            y += wordLabel->height() + 2;
             }
         }
 }
 
 void ChordSelector::onTypeClicked(QListWidgetItem* item) {
-    QString text = item->text();
-    switch (text) {
-      case "Major":
+    if (item->text() == "Major") {
         stackedWidget->setCurrentIndex(2);
-        break;
-      case "Minor":
+    } else if (item->text() == "Minor") {
         stackedWidget->setCurrentIndex(3);
-        break;
-      case "Diminished":
-        stackedWidget->setCurrentIndex(4);
-        break;
-      case "Dominant":
-        stackedWidget->setCurrentIndex(5);
-        break;
-      case "Suspended":
-        stackedWidget->setCurrentIndex(6);
-        break;
-      case "Augmented":
-        stackedWidget->setCurrentIndex(7);
-        break;
-      case "Extended":
-        stackedWidget->setCurrentIndex(8);
-        break;
-      default:
-        std::cerr << "Wtf? chordselector initial sel" << std::endl;
-        break;
+    }
+    //Need to do rest
 }
 
 void ChordSelector::onBackClicked() {
@@ -149,12 +129,12 @@ void ChordSelector::onVariationClicked(QListWidgetItem* item) {
 }
 
 void ChordSelector::initializeMajorVariations() {
-    QStringList majorVariations = {"maj", "maj6", "maj7", "maj9", "maj7-9", "4", "7", "7-9" };
+    QStringList majorVariations = {"maj", "maj7", "maj9"};
     majorVariationListWidget->addItems(majorVariations);
 }
 
 void ChordSelector::initializeMinorVariations() {
-    QStringList minorVariations = {"m", "m7", "m9", "m7-9"};
+    QStringList minorVariations = {"m", "m7", "m9"};
     minorVariationListWidget->addItems(minorVariations);
 }
 
