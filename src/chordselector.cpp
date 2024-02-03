@@ -69,8 +69,8 @@ QLabel* ChordSelector::createDragLabel(QString& text)
 }
 
 void ChordSelector::putDragLabelOnScreen(QString* word){
-    int x = 5;
-    int y = 5;
+    int x = 150;
+    int y = 10;
 
     if (!chordBox->toPlainText().isEmpty()) {
         QLabel* wordLabel = createDragLabel(*word);
