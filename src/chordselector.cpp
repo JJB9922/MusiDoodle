@@ -3,6 +3,7 @@
 #include <iostream>
 #include <QTextBrowser>
 #include <QLabel>
+#include <QtWidgets>
 
 ChordSelector::ChordSelector(QWidget *parent) : QWidget(parent) {
     QVBoxLayout* mainLayout = new QVBoxLayout(this);
@@ -52,14 +53,14 @@ void ChordSelector::onNoteClicked(QListWidgetItem* item) {
         stackedWidget->setCurrentIndex(1);
         chosenNote = item->text();
         chordBox->setText(chosenNote);
-        // HERE !
+
     } else {
         stackedWidget ->setCurrentIndex(stackedWidget->count()-1);
         chordBox->setReadOnly(false);
     }
 }
 
-QLabel* ChordSelector::createDragLabel(QString& text)
+QLabel* ChordSelector::createDragLabel(const QString& text)
 {
     QLabel *label = new QLabel(text, this);
     label->setAutoFillBackground(true);
@@ -68,31 +69,54 @@ QLabel* ChordSelector::createDragLabel(QString& text)
     return label;
 }
 
-void ChordSelector::putDragLabelOnScreen(QString* word){
+void ChordSelector::putDragLabelOnScreen(const QString& word){
     int x = 150;
     int y = 10;
 
     if (!chordBox->toPlainText().isEmpty()) {
-        QLabel* wordLabel = createDragLabel(*word);
-        wordLabel->setGeometry(x, y, wordLabel->width(), wordLabel->height());
-        wordLabel->show();
-        wordLabel->setAttribute(Qt::WA_DeleteOnClose);
-        x += wordLabel->width() + 2;
-        if (x >= 245) {
-            x = 5;
-            y += wordLabel->height() + 2;
-            }
+            QLabel* wordLabel = createDragLabel(word);
+            wordLabel->setGeometry(x, y, wordLabel->width(), wordLabel->height());
+            wordLabel->show();
+            wordLabel->setAttribute(Qt::WA_DeleteOnClose);
+            x += wordLabel->width() + 2;
         }
+
+        setAcceptDrops(true);
 }
 
-void ChordSelector::onTypeClicked(QListWidgetItem* item) {
-    if (item->text() == "Major") {
-        stackedWidget->setCurrentIndex(2);
-    } else if (item->text() == "Minor") {
-        stackedWidget->setCurrentIndex(3);
-    }
-    //Need to do rest
+void ChordSelector::dragEnterEvent(QDragEnterEvent *event)
+{
+
 }
+
+void ChordSelector::dropEvent(QDropEvent *event)
+{
+
+}
+
+void ChordSelector::mousePressEvent(QMouseEvent *event)
+{
+
+}
+
+// void ChordSelector::onTypeClicked(QListWidgetItem* item) {
+//         QStringList types = {"Major", "Minor", "Diminished",
+//                              "Dominant", "Suspended", "Augmented",
+//                              "Extended"};
+//         int j = 2;
+//         for(int i = 0; i < types.length(); i++){
+//             if(item->text() == types[i]){
+//                 stackedWidget->setCurrentIndex(j+i);
+//             }
+//         }
+
+//     // if (item->text() == "Major") {
+//     //     stackedWidget->setCurrentIndex(2);
+//     // } else if (item->text() == "Minor") {
+//     //     stackedWidget->setCurrentIndex(3);
+//     // }
+//     //Need to do rest
+// }
 
 void ChordSelector::onBackClicked() {
     int currentIndex = stackedWidget->currentIndex();
@@ -123,8 +147,8 @@ void ChordSelector::initializeTypes() {
 }
 
 void ChordSelector::onVariationClicked(QListWidgetItem* item) {
-    chordBox->setText(chosenNote + item->text());
-    QString* chordText = new QString(chosenNote + item->text());
+    QString chordText = chosenNote + item->text();
+    chordBox->setText(chordText);
     putDragLabelOnScreen(chordText);
 }
 

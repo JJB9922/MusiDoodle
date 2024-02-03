@@ -23,7 +23,10 @@ private slots:
     void onVariationClicked(QListWidgetItem* item);
     void onBackClicked();
 
-
+protected:
+    void dragEnterEvent(QDragEnterEvent *event) override;
+    void dropEvent(QDropEvent *event) override;
+    void mousePressEvent(QMouseEvent *event) override;
 
 private:
     void initializeNotes();
@@ -31,8 +34,8 @@ private:
     void initializeMajorVariations();
     void initializeMinorVariations();
     void initializeBlankList();
-    QLabel* createDragLabel(QString& text);
-    void putDragLabelOnScreen(QString* word);
+    QLabel* createDragLabel(const QString& text);
+    void putDragLabelOnScreen(const QString& word);
 
     QString chosenNote;
 
