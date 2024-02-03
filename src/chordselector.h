@@ -8,6 +8,7 @@
 #include <QStackedWidget>
 #include <QPushButton>
 #include <QTextBrowser>
+#include <QLabel>
 
 class ChordSelector : public QWidget {
     Q_OBJECT
@@ -15,11 +16,14 @@ class ChordSelector : public QWidget {
 public:
     ChordSelector(QWidget* parent = nullptr);
 
+
 private slots:
     void onNoteClicked(QListWidgetItem* item);
     void onTypeClicked(QListWidgetItem* item);
     void onVariationClicked(QListWidgetItem* item);
     void onBackClicked();
+
+
 
 private:
     void initializeNotes();
@@ -27,6 +31,8 @@ private:
     void initializeMajorVariations();
     void initializeMinorVariations();
     void initializeBlankList();
+    QLabel* createDragLabel(const QString& text);
+    void putDragLabelOnScreen(QString* word);
 
     QString chosenNote;
 

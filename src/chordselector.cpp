@@ -1,6 +1,8 @@
 #include "chordselector.h"
 
+#include <iostream>
 #include <QTextBrowser>
+#include <QLabel>
 
 ChordSelector::ChordSelector(QWidget *parent) : QWidget(parent) {
     QVBoxLayout* mainLayout = new QVBoxLayout(this);
@@ -40,6 +42,9 @@ ChordSelector::ChordSelector(QWidget *parent) : QWidget(parent) {
     initializeMajorVariations();
     initializeMinorVariations();
     initializeBlankList();
+
+    int x = 5;
+    int y = 5;
 }
 
 void ChordSelector::onNoteClicked(QListWidgetItem* item) {
@@ -47,10 +52,37 @@ void ChordSelector::onNoteClicked(QListWidgetItem* item) {
         stackedWidget->setCurrentIndex(1);
         chosenNote = item->text();
         chordBox->setText(chosenNote);
+        // HERE !
     } else {
         stackedWidget ->setCurrentIndex(stackedWidget->count()-1);
         chordBox->setReadOnly(false);
     }
+}
+
+QLabel* ChordSelector::createDragLabel(const QString& text)
+{
+    QLabel *label = new QLabel(text, this);
+    label->setAutoFillBackground(true);
+    label->setFrameShape(QFrame::Panel);
+    label->setFrameShadow(QFrame::Raised);
+    return label;
+}
+
+void ChordSelector::putDragLabelOnScreen(QString* word){
+    int x = 5;
+    int y = 5;
+
+    if (!chordBox->toPlainText().isEmpty()) {
+            QLabel* wordLabel = createDragLabel(*word);
+            wordLabel->move(x, y);
+            wordLabel->show();
+            wordLabel->setAttribute(Qt::WA_DeleteOnClose);
+            x += wordLabel->width() + 2;
+            if (x >= 245) {
+                x = 5;
+                y += wordLabel->height() + 2;
+            }
+        }
 }
 
 void ChordSelector::onTypeClicked(QListWidgetItem* item) {
@@ -112,6 +144,8 @@ void ChordSelector::initializeTypes() {
 
 void ChordSelector::onVariationClicked(QListWidgetItem* item) {
     chordBox->setText(chosenNote + item->text());
+    QString* chordText = new QString(chosenNote + item->text());
+    putDragLabelOnScreen(chordText);
 }
 
 void ChordSelector::initializeMajorVariations() {

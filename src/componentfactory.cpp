@@ -1,5 +1,4 @@
 #include "componentfactory.h"
-#include "chordselector.h"
 
 #include <QLineEdit>
 #include <QComboBox>
