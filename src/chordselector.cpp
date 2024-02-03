@@ -57,6 +57,7 @@ void ChordSelector::onNoteClicked(QListWidgetItem* item) {
     } else {
         stackedWidget ->setCurrentIndex(stackedWidget->count()-1);
         chordBox->setReadOnly(false);
+        putDragLabelOnScreen(chordBox->toPlainText());
     }
 }
 
@@ -99,24 +100,15 @@ void ChordSelector::mousePressEvent(QMouseEvent *event)
 
 }
 
-// void ChordSelector::onTypeClicked(QListWidgetItem* item) {
-//         QStringList types = {"Major", "Minor", "Diminished",
-//                              "Dominant", "Suspended", "Augmented",
-//                              "Extended"};
-//         int j = 2;
-//         for(int i = 0; i < types.length(); i++){
-//             if(item->text() == types[i]){
-//                 stackedWidget->setCurrentIndex(j+i);
-//             }
-//         }
+void ChordSelector::onTypeClicked(QListWidgetItem* item) {
 
-//     // if (item->text() == "Major") {
-//     //     stackedWidget->setCurrentIndex(2);
-//     // } else if (item->text() == "Minor") {
-//     //     stackedWidget->setCurrentIndex(3);
-//     // }
-//     //Need to do rest
-// }
+    if (item->text() == "Major") {
+        stackedWidget->setCurrentIndex(2);
+    } else if (item->text() == "Minor") {
+        stackedWidget->setCurrentIndex(3);
+    }
+    //Need to do rest
+}
 
 void ChordSelector::onBackClicked() {
     int currentIndex = stackedWidget->currentIndex();
@@ -125,6 +117,7 @@ void ChordSelector::onBackClicked() {
     } else {
         stackedWidget->setCurrentIndex(0);
         chordBox->setReadOnly(true);
+
     }
 }
 
