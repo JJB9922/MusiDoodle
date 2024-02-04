@@ -61,7 +61,9 @@ void ChordSelector::onNoteClicked(QListWidgetItem* item) {
     }
 }
 
-QLabel* ChordSelector::createDragLabel(const QString& text)
+static QString hotSpotMimeDataKey() { return QStringLiteral("application/x-hotspot"); }
+
+QLabel* ChordSelector::createDragLabel(const QString& text, QWidget *parent)
 {
     QLabel *label = new QLabel(text, this);
     label->setAutoFillBackground(true);
@@ -79,25 +81,89 @@ void ChordSelector::putDragLabelOnScreen(const QString& word){
             wordLabel->setGeometry(x, y, wordLabel->width(), wordLabel->height());
             wordLabel->show();
             wordLabel->setAttribute(Qt::WA_DeleteOnClose);
-            x += wordLabel->width() + 2;
         }
-
-        setAcceptDrops(true);
 }
 
 void ChordSelector::dragEnterEvent(QDragEnterEvent *event)
 {
-
+        if (event->mimeData()->hasText()) {
+            if (event->source() == this) {
+                event->setDropAction(Qt::MoveAction);
+                event->accept();
+            } else {
+                event->acceptProposedAction();
+            }
+        } else {
+            event->ignore();
+        }
 }
 
 void ChordSelector::dropEvent(QDropEvent *event)
 {
+        if (event->mimeData()->hasText()) {
+            const QMimeData *mime = event->mimeData();
+            QStringList pieces = mime->text().split(QRegularExpression(QStringLiteral("\\s+")),
+                                                    Qt::SkipEmptyParts);
+            QPoint position = event->position().toPoint();
+            QPoint hotSpot;
 
+            QByteArrayList hotSpotPos = mime->data(hotSpotMimeDataKey()).split(' ');
+            if (hotSpotPos.size() == 2) {
+                hotSpot.setX(hotSpotPos.first().toInt());
+                hotSpot.setY(hotSpotPos.last().toInt());
+            }
+
+            for (const QString &piece : pieces) {
+                QLabel *newLabel = createDragLabel(piece, this);
+                newLabel->move(position - hotSpot);
+                newLabel->show();
+                newLabel->setAttribute(Qt::WA_DeleteOnClose);
+
+                position += QPoint(newLabel->width(), 0);
+            }
+
+            if (event->source() == this) {
+                event->setDropAction(Qt::MoveAction);
+                event->accept();
+            } else {
+                event->acceptProposedAction();
+            }
+        } else {
+            event->ignore();
+        }
+        for (QWidget *widget : findChildren<QWidget *>()) {
+            if (!widget->isVisible())
+                widget->deleteLater();
+        }
 }
 
 void ChordSelector::mousePressEvent(QMouseEvent *event)
 {
+        QLabel *child = qobject_cast<QLabel*>(childAt(event->position().toPoint()));
+        if (!child)
+            return;
 
+        QPoint hotSpot = event->position().toPoint() - child->pos();
+
+        QMimeData *mimeData = new QMimeData;
+        mimeData->setText(child->text());
+        mimeData->setData(hotSpotMimeDataKey(),
+                          QByteArray::number(hotSpot.x()) + ' ' + QByteArray::number(hotSpot.y()));
+
+        qreal dpr = window()->windowHandle()->devicePixelRatio();
+        QPixmap pixmap(child->size() * dpr);
+        pixmap.setDevicePixelRatio(dpr);
+        child->render(&pixmap);
+
+        QDrag *drag = new QDrag(this);
+        drag->setMimeData(mimeData);
+        drag->setPixmap(pixmap);
+        drag->setHotSpot(hotSpot);
+
+        Qt::DropAction dropAction = drag->exec(Qt::CopyAction | Qt::MoveAction, Qt::CopyAction);
+
+        //if (dropAction == Qt::MoveAction)
+            //child->close();
 }
 
 void ChordSelector::onTypeClicked(QListWidgetItem* item) {

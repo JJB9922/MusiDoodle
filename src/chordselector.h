@@ -34,7 +34,7 @@ private:
     void initializeMajorVariations();
     void initializeMinorVariations();
     void initializeBlankList();
-    QLabel* createDragLabel(const QString& text);
+    QLabel* createDragLabel(const QString& text, QWidget* parent = nullptr);
     void putDragLabelOnScreen(const QString& word);
 
     QString chosenNote;
