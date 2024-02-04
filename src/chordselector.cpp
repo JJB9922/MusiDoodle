@@ -5,11 +5,38 @@
 #include <QLabel>
 #include <QtWidgets>
 
+static const QString HOTSPOT_MIME_TYPE = QStringLiteral("application/x-hotspot");
+static const int DRAG_LABEL_X = 150;
+static const int DRAG_LABEL_Y = 5;
+
+static const QStringList notes = {"Ab", "A", "A#",
+                                  "Bb", "B", "B#",
+                                  "Cb", "C", "C#",
+                                  "Db", "D", "D#",
+                                  "Eb", "E", "E#",
+                                  "Fb", "F", "F#",
+                                  "Gb", "G", "G#", "CUSTOM"};
+
+static const QStringList types = {"Major", "Minor", "Diminished",
+                                  "Dominant", "Suspended", "Augmented",
+                                  "Extended"};
+
+static const QStringList majorVariations = {"4", "6", "7", "7-9", "9", "maj", "maj7", "maj9"};
+static const QStringList minorVariations = {"m", "m4", "m6", "m7", "m7-9", "m9", "m", "m7", "m9"};
+static const QStringList diminishedVariations = {"dim", "dim7"};
+static const QStringList dominantVariations = {"7", "7b5", "7#5", "9", "11", "13", "7sus4"};
+static const QStringList suspendedVariations = {"sus2", "sus4", "sus7", "sus9"};
+static const QStringList augmentedVariations = {"aug", "aug7", "aug9"};
+static const QStringList extendedVariations = {"9", "11", "13", "maj9", "maj11", "maj13", "m9", "m11", "m13"};
+
+QMap<QString, int> typeIndexMap;
+
 ChordSelector::ChordSelector(QWidget *parent) : QWidget(parent) {
     QVBoxLayout* mainLayout = new QVBoxLayout(this);
 
-    chordBox = new QTextBrowser(this);
+    chordBox = new QLineEdit(this);
     chordBox->setFixedSize(128, 32);
+    chordBox->setReadOnly(true);
 
     noteListWidget = new QListWidget(this);
     connect(noteListWidget, &QListWidget::itemClicked, this, &ChordSelector::onNoteClicked);
@@ -21,6 +48,22 @@ ChordSelector::ChordSelector(QWidget *parent) : QWidget(parent) {
     connect(majorVariationListWidget, &QListWidget::itemClicked, this, &ChordSelector::onVariationClicked);
 
     minorVariationListWidget = new QListWidget(this);
+    connect(minorVariationListWidget, &QListWidget::itemClicked, this, &ChordSelector::onVariationClicked);
+
+    dominantVariationListWidget = new QListWidget(this);
+    connect(dominantVariationListWidget, &QListWidget::itemClicked, this, &ChordSelector::onVariationClicked);
+
+    diminishedVariationListWidget = new QListWidget(this);
+    connect(diminishedVariationListWidget, &QListWidget::itemClicked, this, &ChordSelector::onVariationClicked);
+
+    suspendedVariationListWidget = new QListWidget(this);
+    connect(suspendedVariationListWidget, &QListWidget::itemClicked, this, &ChordSelector::onVariationClicked);
+
+    augmentedVariationListWidget = new QListWidget(this);
+    connect(augmentedVariationListWidget, &QListWidget::itemClicked, this, &ChordSelector::onVariationClicked);
+
+    extendedVariationListWidget = new QListWidget(this);
+    connect(extendedVariationListWidget, &QListWidget::itemClicked, this, &ChordSelector::onVariationClicked);
 
     blankListWidget = new QListWidget(this);
 
@@ -29,9 +72,14 @@ ChordSelector::ChordSelector(QWidget *parent) : QWidget(parent) {
     stackedWidget->addWidget(typeListWidget);
     stackedWidget->addWidget(majorVariationListWidget);
     stackedWidget->addWidget(minorVariationListWidget);
+    stackedWidget->addWidget(dominantVariationListWidget);
+    stackedWidget->addWidget(diminishedVariationListWidget);
+    stackedWidget->addWidget(suspendedVariationListWidget);
+    stackedWidget->addWidget(augmentedVariationListWidget);
+    stackedWidget->addWidget(extendedVariationListWidget);
     stackedWidget->addWidget(blankListWidget);
 
-    backButton = new QPushButton("Back", this);
+    backButton = new QPushButton("Reset", this);
     connect(backButton, &QPushButton::clicked, this, &ChordSelector::onBackClicked);
 
     mainLayout->addWidget(chordBox);
@@ -40,12 +88,8 @@ ChordSelector::ChordSelector(QWidget *parent) : QWidget(parent) {
 
     initializeNotes();
     initializeTypes();
-    initializeMajorVariations();
-    initializeMinorVariations();
+    initializeVariations();
     initializeBlankList();
-
-    int x = 5;
-    int y = 5;
 }
 
 void ChordSelector::onNoteClicked(QListWidgetItem* item) {
@@ -57,40 +101,36 @@ void ChordSelector::onNoteClicked(QListWidgetItem* item) {
     } else {
         stackedWidget ->setCurrentIndex(stackedWidget->count()-1);
         chordBox->setReadOnly(false);
-        putDragLabelOnScreen(chordBox->toPlainText());
+        putDragLabelOnScreen(chordBox->text());
     }
 }
 
-static QString hotSpotMimeDataKey() { return QStringLiteral("application/x-hotspot"); }
+static QString hotSpotMimeDataKey() { return HOTSPOT_MIME_TYPE; }
 
 QLabel* ChordSelector::createDragLabel(const QString& text, QWidget *parent)
 {
-    QLabel *label = new QLabel(text, this);
+    std::unique_ptr<QLabel> label = std::make_unique<QLabel>(text, this);
     label->setAutoFillBackground(true);
     label->setFrameShape(QFrame::Panel);
     label->setFrameShadow(QFrame::Raised);
-    return label;
+    return label.release();
 }
 
 void ChordSelector::putDragLabelOnScreen(const QString& word){
-        int x = 150;
-        int y = 10;
-
         if (currentDragLabel) {
             currentDragLabel->deleteLater();
             currentDragLabel = nullptr;
         }
 
-        if (!chordBox->toPlainText().isEmpty()) {
+        if (!chordBox->text().isEmpty()) {
             currentDragLabel = createDragLabel(word);
-            currentDragLabel->setGeometry(x, y, currentDragLabel->width(), currentDragLabel->height());
+            currentDragLabel->setGeometry(DRAG_LABEL_X, DRAG_LABEL_Y, currentDragLabel->width(), currentDragLabel->height());
             currentDragLabel->show();
             currentDragLabel->setAttribute(Qt::WA_DeleteOnClose);
         }
 
         setAcceptDrops(true);
 }
-
 
 void ChordSelector::dragEnterEvent(QDragEnterEvent *event)
 {
@@ -145,7 +185,6 @@ void ChordSelector::mousePressEvent(QMouseEvent *event)
         if (!child)
             return;
 
-        // Delete the previous dragLabel, if any
         if (currentDragLabel) {
             currentDragLabel->deleteLater();
             currentDragLabel = nullptr;
@@ -153,7 +192,7 @@ void ChordSelector::mousePressEvent(QMouseEvent *event)
 
         QPoint hotSpot = event->position().toPoint() - child->pos();
 
-        QMimeData *mimeData = new QMimeData;
+        std::unique_ptr<QMimeData> mimeData = std::make_unique<QMimeData>();
         mimeData->setText(child->text());
         mimeData->setData(hotSpotMimeDataKey(),
                           QByteArray::number(hotSpot.x()) + ' ' + QByteArray::number(hotSpot.y()));
@@ -163,8 +202,8 @@ void ChordSelector::mousePressEvent(QMouseEvent *event)
         pixmap.setDevicePixelRatio(dpr);
         child->render(&pixmap);
 
-        QDrag *drag = new QDrag(this);
-        drag->setMimeData(mimeData);
+        std::unique_ptr<QDrag> drag = std::make_unique<QDrag>(this);
+        drag->setMimeData(mimeData.release());
         drag->setPixmap(pixmap);
         drag->setHotSpot(hotSpot);
 
@@ -173,42 +212,31 @@ void ChordSelector::mousePressEvent(QMouseEvent *event)
         if (dropAction == Qt::MoveAction)
             child->close();
 }
-void ChordSelector::onTypeClicked(QListWidgetItem* item) {
 
-    if (item->text() == "Major") {
-        stackedWidget->setCurrentIndex(2);
-    } else if (item->text() == "Minor") {
-        stackedWidget->setCurrentIndex(3);
-    }
-    //Need to do rest
+void ChordSelector::onTypeClicked(QListWidgetItem* item) {
+        int j = 2;
+        for (const QString& type : types) {
+            typeIndexMap.insert(type, j++);
+        }
+
+        const QString& itemType = item->text();
+
+        if (typeIndexMap.contains(itemType)) {
+            stackedWidget->setCurrentIndex(typeIndexMap.value(itemType));
+        }
 }
 
 void ChordSelector::onBackClicked() {
-    int currentIndex = stackedWidget->currentIndex();
-    if (currentIndex > 0 && currentIndex != stackedWidget->count() - 1) {
-        stackedWidget->setCurrentIndex(currentIndex - 1);
-    } else {
-        stackedWidget->setCurrentIndex(0);
-        chordBox->setReadOnly(true);
-
-    }
+    stackedWidget->setCurrentIndex(0);
+    chordBox->clear();
+    chordBox->setReadOnly(true);
 }
 
 void ChordSelector::initializeNotes() {
-    QStringList notes = {"Ab", "A", "A#",
-                         "Bb", "B", "B#",
-                         "Cb", "C", "C#",
-                         "Db", "D", "D#",
-                         "Eb", "E", "E#",
-                         "Fb", "F", "F#",
-                         "Gb", "G", "G#", "CUSTOM"};
     noteListWidget->addItems(notes);
 }
 
 void ChordSelector::initializeTypes() {
-    QStringList types = {"Major", "Minor", "Diminished",
-                         "Dominant", "Suspended", "Augmented",
-                         "Extended"};
     typeListWidget->addItems(types);
 }
 
@@ -218,15 +246,16 @@ void ChordSelector::onVariationClicked(QListWidgetItem* item) {
     putDragLabelOnScreen(chordText);
 }
 
-void ChordSelector::initializeMajorVariations() {
-    QStringList majorVariations = {"maj", "maj7", "maj9"};
+void ChordSelector::initializeVariations() {
     majorVariationListWidget->addItems(majorVariations);
+    minorVariationListWidget->addItems(minorVariations);
+    diminishedVariationListWidget->addItems(diminishedVariations);
+    dominantVariationListWidget->addItems(dominantVariations);
+    suspendedVariationListWidget->addItems(suspendedVariations);
+    augmentedVariationListWidget->addItems(augmentedVariations);
+    extendedVariationListWidget->addItems(extendedVariations);
 }
 
-void ChordSelector::initializeMinorVariations() {
-    QStringList minorVariations = {"m", "m7", "m9"};
-    minorVariationListWidget->addItems(minorVariations);
-}
 
 void ChordSelector::initializeBlankList() {
     QStringList blankList = {"Type a custom chord above."};

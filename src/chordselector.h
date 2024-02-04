@@ -30,8 +30,7 @@ protected:
 private:
     void initializeNotes();
     void initializeTypes();
-    void initializeMajorVariations();
-    void initializeMinorVariations();
+    void initializeVariations();
     void initializeBlankList();
     QLabel* createDragLabel(const QString& text, QWidget* parent = nullptr);
     void putDragLabelOnScreen(const QString& word);
@@ -42,8 +41,13 @@ private:
     QListWidget* typeListWidget;
     QListWidget* majorVariationListWidget;
     QListWidget* minorVariationListWidget;
+    QListWidget* diminishedVariationListWidget;
+    QListWidget* dominantVariationListWidget;
+    QListWidget* suspendedVariationListWidget;
+    QListWidget* augmentedVariationListWidget;
+    QListWidget* extendedVariationListWidget;
     QListWidget* blankListWidget;
-    QTextBrowser* chordBox;
+    QLineEdit* chordBox;
     QStackedWidget* stackedWidget;
     QPushButton* backButton;
 };
