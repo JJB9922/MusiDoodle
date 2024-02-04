@@ -5,6 +5,7 @@
 #include <QWidget>
 #include <QVBoxLayout>
 #include <QListWidget>
+#include <QLineEdit>
 #include <QStackedWidget>
 #include <QPushButton>
 #include <QTextBrowser>
@@ -15,9 +16,16 @@ class ChordSelector : public QWidget {
 
 public:
     ChordSelector(QWidget* parent = nullptr);
+    QStackedWidget* getStackedWidget() const { return stackedWidget; }
+    QLineEdit* getChordBox() const { return chordBox; }
+    friend class ChordSelectorTest;
+    QString chosenNote;
+
+public slots:
+    void onNoteClicked(QListWidgetItem* item);
 
 private slots:
-    void onNoteClicked(QListWidgetItem* item);
+
     void onTypeClicked(QListWidgetItem* item);
     void onVariationClicked(QListWidgetItem* item);
     void onBackClicked();
@@ -36,7 +44,7 @@ private:
     void putDragLabelOnScreen(const QString& word);
 
     QLabel* currentDragLabel = nullptr;
-    QString chosenNote;
+
     QListWidget* noteListWidget;
     QListWidget* typeListWidget;
     QListWidget* majorVariationListWidget;

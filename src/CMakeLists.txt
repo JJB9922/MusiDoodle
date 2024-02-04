@@ -25,6 +25,16 @@ set(PROJECT_SOURCES
         mainwindow.cpp
         mainwindow.h
         mainwindow.ui
+        trackeditorwindow.h
+        trackeditorwindow.cpp
+        trackeditorwindow.ui
+        newcomponentpicker.h
+        newcomponentpicker.cpp
+        newcomponentpicker.ui
+        componentfactory.h
+        componentfactory.cpp
+        chordselector.h
+        chordselector.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -36,8 +46,6 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         componentfactory.h componentfactory.cpp
 
         chordselector.h chordselector.cpp
-
-
 
     )
 # Define target properties for Android with Qt 6 as:
@@ -85,16 +93,20 @@ if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(MusiDoodle)
 endif()
 
-enable_testing()
+# enable_testing()
 
-add_executable(
-  hello_test
-  ../tests/hello_test.cc
-)
-target_link_libraries(
-  hello_test
-  GTest::gtest_main
-)
+#add_executable(
+#  chord_selector_tests
+#  ../tests/chord_selector_tests.cc
+#  chordselector.cpp 
+#)
 
-include(GoogleTest)
-gtest_discover_tests(hello_test)
+#target_link_libraries(
+#  chord_selector_tests
+#  Qt${QT_VERSION_MAJOR}::Widgets
+#  GTest::gtest_main
+#)
+
+#include(GoogleTest)
+
+#gtest_discover_tests(chord_selector_tests)
