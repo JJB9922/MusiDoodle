@@ -109,11 +109,11 @@ static QString hotSpotMimeDataKey() { return HOTSPOT_MIME_TYPE; }
 
 QLabel* ChordSelector::createDragLabel(const QString& text, QWidget *parent)
 {
-    std::unique_ptr<QLabel> label = std::make_unique<QLabel>(text, this);
+    QLabel* label = new QLabel(text, this);
     label->setAutoFillBackground(true);
     label->setFrameShape(QFrame::Panel);
     label->setFrameShadow(QFrame::Raised);
-    return label.release();
+    return label;
 }
 
 void ChordSelector::putDragLabelOnScreen(const QString& word){
@@ -230,6 +230,11 @@ void ChordSelector::onBackClicked() {
     stackedWidget->setCurrentIndex(0);
     chordBox->clear();
     chordBox->setReadOnly(true);
+
+    if (currentDragLabel) {
+            currentDragLabel->deleteLater();
+            currentDragLabel = nullptr;
+    }
 }
 
 void ChordSelector::initializeNotes() {

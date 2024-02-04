@@ -93,7 +93,7 @@ void TrackEditorWindow::showNewComponentPicker()
 }
 
 void TrackEditorWindow::createComponent(QWidget* componentToUse)
-{
+{ 
     if (!componentToUse) {
         std::cerr << "Invalid component." << std::endl;
         return;
