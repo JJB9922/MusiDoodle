@@ -73,16 +73,24 @@ QLabel* ChordSelector::createDragLabel(const QString& text, QWidget *parent)
 }
 
 void ChordSelector::putDragLabelOnScreen(const QString& word){
-    int x = 150;
-    int y = 10;
+        int x = 150;
+        int y = 10;
 
-    if (!chordBox->toPlainText().isEmpty()) {
-            QLabel* wordLabel = createDragLabel(word);
-            wordLabel->setGeometry(x, y, wordLabel->width(), wordLabel->height());
-            wordLabel->show();
-            wordLabel->setAttribute(Qt::WA_DeleteOnClose);
+        if (currentDragLabel) {
+            currentDragLabel->deleteLater();
+            currentDragLabel = nullptr;
         }
+
+        if (!chordBox->toPlainText().isEmpty()) {
+            currentDragLabel = createDragLabel(word);
+            currentDragLabel->setGeometry(x, y, currentDragLabel->width(), currentDragLabel->height());
+            currentDragLabel->show();
+            currentDragLabel->setAttribute(Qt::WA_DeleteOnClose);
+        }
+
+        setAcceptDrops(true);
 }
+
 
 void ChordSelector::dragEnterEvent(QDragEnterEvent *event)
 {
@@ -128,12 +136,6 @@ void ChordSelector::dropEvent(QDropEvent *event)
             } else {
                 event->acceptProposedAction();
             }
-        } else {
-            event->ignore();
-        }
-        for (QWidget *widget : findChildren<QWidget *>()) {
-            if (!widget->isVisible())
-                widget->deleteLater();
         }
 }
 
@@ -142,6 +144,12 @@ void ChordSelector::mousePressEvent(QMouseEvent *event)
         QLabel *child = qobject_cast<QLabel*>(childAt(event->position().toPoint()));
         if (!child)
             return;
+
+        // Delete the previous dragLabel, if any
+        if (currentDragLabel) {
+            currentDragLabel->deleteLater();
+            currentDragLabel = nullptr;
+        }
 
         QPoint hotSpot = event->position().toPoint() - child->pos();
 
@@ -162,10 +170,9 @@ void ChordSelector::mousePressEvent(QMouseEvent *event)
 
         Qt::DropAction dropAction = drag->exec(Qt::CopyAction | Qt::MoveAction, Qt::CopyAction);
 
-        //if (dropAction == Qt::MoveAction)
-            //child->close();
+        if (dropAction == Qt::MoveAction)
+            child->close();
 }
-
 void ChordSelector::onTypeClicked(QListWidgetItem* item) {
 
     if (item->text() == "Major") {

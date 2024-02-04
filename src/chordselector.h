@@ -16,7 +16,6 @@ class ChordSelector : public QWidget {
 public:
     ChordSelector(QWidget* parent = nullptr);
 
-
 private slots:
     void onNoteClicked(QListWidgetItem* item);
     void onTypeClicked(QListWidgetItem* item);
@@ -37,8 +36,8 @@ private:
     QLabel* createDragLabel(const QString& text, QWidget* parent = nullptr);
     void putDragLabelOnScreen(const QString& word);
 
+    QLabel* currentDragLabel = nullptr;
     QString chosenNote;
-
     QListWidget* noteListWidget;
     QListWidget* typeListWidget;
     QListWidget* majorVariationListWidget;
