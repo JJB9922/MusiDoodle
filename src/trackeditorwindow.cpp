@@ -34,7 +34,9 @@ TrackEditorWindow::~TrackEditorWindow()
 
 void TrackEditorWindow::on_actionQuit_triggered()
 {
-    close();
+    //Check save state etc
+
+    QCoreApplication::quit();
 }
 
 void TrackEditorWindow::on_actionSave_As_triggered()
