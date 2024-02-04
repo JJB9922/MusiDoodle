@@ -21,13 +21,13 @@ static const QStringList types = {"Major", "Minor", "Diminished",
                                   "Dominant", "Suspended", "Augmented",
                                   "Extended"};
 
-static const QStringList majorVariations = {"4", "6", "7", "7-9", "9", "maj", "maj7", "maj9"};
-static const QStringList minorVariations = {"m", "m4", "m6", "m7", "m7-9", "m9", "m", "m7", "m9"};
-static const QStringList diminishedVariations = {"dim", "dim7"};
-static const QStringList dominantVariations = {"7", "7b5", "7#5", "9", "11", "13", "7sus4"};
-static const QStringList suspendedVariations = {"sus2", "sus4", "sus7", "sus9"};
-static const QStringList augmentedVariations = {"aug", "aug7", "aug9"};
-static const QStringList extendedVariations = {"9", "11", "13", "maj9", "maj11", "maj13", "m9", "m11", "m13"};
+const QStringList majorVariations = {"4", "6", "7", "7-9", "9", "maj", "maj7", "maj9"};
+const QStringList minorVariations = {"m", "m4", "m6", "m7", "m7-9", "m9", "m", "m7", "m9"};
+const QStringList diminishedVariations = {"dim", "dim7"};
+const QStringList dominantVariations = {"7", "7b5", "7#5", "9", "11", "13", "7sus4"};
+const QStringList suspendedVariations = {"sus2", "sus4", "sus7", "sus9"};
+const QStringList augmentedVariations = {"aug", "aug7", "aug9"};
+const QStringList extendedVariations = {"9", "11", "13", "maj9", "maj11", "maj13", "m9", "m11", "m13"};
 
 QMap<QString, int> typeIndexMap;
 
@@ -72,8 +72,8 @@ ChordSelector::ChordSelector(QWidget *parent) : QWidget(parent) {
     stackedWidget->addWidget(typeListWidget);
     stackedWidget->addWidget(majorVariationListWidget);
     stackedWidget->addWidget(minorVariationListWidget);
-    stackedWidget->addWidget(dominantVariationListWidget);
     stackedWidget->addWidget(diminishedVariationListWidget);
+    stackedWidget->addWidget(dominantVariationListWidget);
     stackedWidget->addWidget(suspendedVariationListWidget);
     stackedWidget->addWidget(augmentedVariationListWidget);
     stackedWidget->addWidget(extendedVariationListWidget);
