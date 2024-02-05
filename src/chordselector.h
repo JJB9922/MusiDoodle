@@ -23,7 +23,6 @@ public slots:
     void onNoteClicked(QListWidgetItem* note);
 
 private slots:
-
     void onTypeClicked(QListWidgetItem* item);
     void onVariationClicked(QListWidgetItem* item);
     void onResetClicked();
@@ -34,9 +33,11 @@ protected:
     void mousePressEvent(QMouseEvent *event) override;
 
 private:
-    void initializeChordSelector();
-    QLabel* createDragLabel(const QString& text, QWidget* parent = nullptr);
-    void putDragLabelOnScreen(const QString& word);
+    void ConnectWidgets();
+    void InitializeChordSelector();
+    QLabel* CreateDragLabel(const QString& text, QWidget* parent = nullptr);
+    void PutDragLabelOnScreen(const QString& word);
+
 
     QLabel* currentDragLabel = nullptr;
 

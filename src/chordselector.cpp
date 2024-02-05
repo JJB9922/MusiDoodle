@@ -33,6 +33,28 @@ ChordSelector::ChordSelector(QWidget *parent) : QWidget(parent) {
     chordBox->setFixedSize(128, 32);
     chordBox->setReadOnly(true);
 
+    ConnectWidgets();
+
+    mainLayout->addWidget(chordBox);
+    mainLayout->addWidget(stackedWidget);
+    mainLayout->addWidget(backButton);
+
+    InitializeChordSelector();
+}
+
+/**
+ * @brief ChordSelector::ConnectWidgets
+ *
+ * Connects various QListWidget instances to their respective slots and initializes
+ * the QStackedWidget for switching between different chord selection views.
+ * Also, creates and connects a QPushButton for resetting the chord selection.
+ *
+ * @see onNoteClicked(QListWidgetItem* note)
+ * @see onTypeClicked(QListWidgetItem* item)
+ * @see onVariationClicked(QListWidgetItem* item)
+ * @see onResetClicked()
+ */
+void ChordSelector::ConnectWidgets(){
     noteListWidget = new QListWidget(this);
     connect(noteListWidget, &QListWidget::itemClicked, this, &ChordSelector::onNoteClicked);
 
@@ -76,12 +98,6 @@ ChordSelector::ChordSelector(QWidget *parent) : QWidget(parent) {
 
     backButton = new QPushButton("Reset", this);
     connect(backButton, &QPushButton::clicked, this, &ChordSelector::onResetClicked);
-
-    mainLayout->addWidget(chordBox);
-    mainLayout->addWidget(stackedWidget);
-    mainLayout->addWidget(backButton);
-
-    initializeChordSelector();
 }
 
 /**
@@ -91,7 +107,7 @@ ChordSelector::ChordSelector(QWidget *parent) : QWidget(parent) {
  *
  * Adds each item (notes, types and variations) to the appropriate parts of the widget.
  */
-void ChordSelector::initializeChordSelector() {
+void ChordSelector::InitializeChordSelector() {
     noteListWidget->addItems(musicData.notes);
     typeListWidget->addItems(musicData.types);
 
@@ -108,6 +124,59 @@ void ChordSelector::initializeChordSelector() {
 }
 
 /**
+ * @brief ChordSelector::CreateDragLabel
+ *
+ * Creates a draggable QLabel for visualizing chord variations during drag-and-drop operations.
+ *
+ * @param text The text content of the label, representing the chord variation.
+ * @param parent The parent widget for the created QLabel.
+ * @return A pointer to the newly created QLabel.
+ */
+QLabel* ChordSelector::CreateDragLabel(const QString& text, QWidget *parent)
+{
+    QLabel* label = new QLabel(text, this);
+    label->setAutoFillBackground(true);
+    label->setFrameShape(QFrame::Panel);
+    label->setFrameShadow(QFrame::Raised);
+    return label;
+}
+
+/**
+ * @brief ChordSelector::PutDragLabelOnScreen
+ *
+ * Displays a draggable label on the screen to visualize a chord variation during drag-and-drop operations.
+ *
+ * If a previous drag label exists, it is deleted before creating a new one.
+ * If the chord display is not empty, a new QLabel is created using the createDragLabel method
+ * with the provided chord variation text. The QLabel is then positioned on the screen.
+ * Finally, setAcceptDrops is called to enable dropping operations on the ChordSelector widget - this is for testing at the mo, and won't be included later.
+ *
+ * @param word The text content of the chord variation to be visualized.
+ */
+void ChordSelector::PutDragLabelOnScreen(const QString& word){
+        int DRAG_LABEL_X = 150;
+        int DRAG_LABEL_Y = 5;
+
+        if (currentDragLabel) {
+            currentDragLabel->deleteLater();
+            currentDragLabel = nullptr;
+        }
+
+        if (!chordBox->text().isEmpty()) {
+            currentDragLabel = CreateDragLabel(word);
+            currentDragLabel->setGeometry(DRAG_LABEL_X, DRAG_LABEL_Y, currentDragLabel->width(), currentDragLabel->height());
+            currentDragLabel->show();
+            currentDragLabel->setAttribute(Qt::WA_DeleteOnClose);
+        }
+
+        setAcceptDrops(true);
+}
+
+//
+//Private onClicked
+//
+
+/**
  * @brief ChordSelector::onResetClicked
  *
  * Will reset the stacked widget back to it's default state.
@@ -115,14 +184,14 @@ void ChordSelector::initializeChordSelector() {
  * Also clears the chord box.
  */
 void ChordSelector::onResetClicked() {
-    stackedWidget->setCurrentIndex(0);
-    chordBox->clear();
-    chordBox->setReadOnly(true);
+        stackedWidget->setCurrentIndex(0);
+        chordBox->clear();
+        chordBox->setReadOnly(true);
 
-    if (currentDragLabel) {
-        currentDragLabel->deleteLater();
-        currentDragLabel = nullptr;
-    }
+        if (currentDragLabel) {
+            currentDragLabel->deleteLater();
+            currentDragLabel = nullptr;
+        }
 }
 
 /**
@@ -135,16 +204,16 @@ void ChordSelector::onResetClicked() {
  * @param note The item (note) that was clicked
  */
 void ChordSelector::onNoteClicked(QListWidgetItem* note) {
-    if (note->text() != "CUSTOM") {
-        stackedWidget->setCurrentIndex(1);
-        chosenNote = note->text();
-        chordBox->setText(chosenNote);
+        if (note->text() != "CUSTOM") {
+            stackedWidget->setCurrentIndex(1);
+            chosenNote = note->text();
+            chordBox->setText(chosenNote);
 
-    } else {
-        stackedWidget ->setCurrentIndex(stackedWidget->count()-1);
-        chordBox->setReadOnly(false);
-        putDragLabelOnScreen(chordBox->text());
-    }
+        } else {
+            stackedWidget ->setCurrentIndex(stackedWidget->count()-1);
+            chordBox->setReadOnly(false);
+            PutDragLabelOnScreen(chordBox->text());
+        }
 }
 
 /**
@@ -159,16 +228,16 @@ void ChordSelector::onNoteClicked(QListWidgetItem* note) {
  * @param item The QListWidgetItem representing the clicked chord type.
  */
 void ChordSelector::onTypeClicked(QListWidgetItem* item) {
-    int j = 2;
-    for (const QString& type : musicData.types) {
-        typeIndexMap.insert(type, j++);
-    }
+        int j = 2;
+        for (const QString& type : musicData.types) {
+            typeIndexMap.insert(type, j++);
+        }
 
-    const QString& itemType = item->text();
+        const QString& itemType = item->text();
 
-    if (typeIndexMap.contains(itemType)) {
-        stackedWidget->setCurrentIndex(typeIndexMap.value(itemType));
-    }
+        if (typeIndexMap.contains(itemType)) {
+            stackedWidget->setCurrentIndex(typeIndexMap.value(itemType));
+        }
 }
 
 /**
@@ -183,57 +252,14 @@ void ChordSelector::onTypeClicked(QListWidgetItem* item) {
  * @param item The QListWidgetItem representing the clicked chord variation.
  */
 void ChordSelector::onVariationClicked(QListWidgetItem* item) {
-    QString chordText = chosenNote + item->text();
-    chordBox->setText(chordText);
-    putDragLabelOnScreen(chordText);
+        QString chordText = chosenNote + item->text();
+        chordBox->setText(chordText);
+        PutDragLabelOnScreen(chordText);
 }
 
-/**
- * Creates a draggable QLabel for visualizing chord variations during drag-and-drop operations.
- *
- * @param text The text content of the label, representing the chord variation.
- * @param parent The parent widget for the created QLabel.
- * @return A pointer to the newly created QLabel.
- */
-QLabel* ChordSelector::createDragLabel(const QString& text, QWidget *parent)
-{
-    QLabel* label = new QLabel(text, this);
-    label->setAutoFillBackground(true);
-    label->setFrameShape(QFrame::Panel);
-    label->setFrameShadow(QFrame::Raised);
-    return label;
-}
-
-/**
- * @brief ChordSelector::putDragLabelOnScreen
- *
- * Displays a draggable label on the screen to visualize a chord variation during drag-and-drop operations.
- *
- * If a previous drag label exists, it is deleted before creating a new one.
- * If the chord display is not empty, a new QLabel is created using the createDragLabel method
- * with the provided chord variation text. The QLabel is then positioned on the screen.
- * Finally, setAcceptDrops is called to enable dropping operations on the ChordSelector widget - this is for testing at the mo, and won't be included later.
- *
- * @param word The text content of the chord variation to be visualized.
- */
-void ChordSelector::putDragLabelOnScreen(const QString& word){
-        int DRAG_LABEL_X = 150;
-        int DRAG_LABEL_Y = 5;
-
-        if (currentDragLabel) {
-            currentDragLabel->deleteLater();
-            currentDragLabel = nullptr;
-        }
-
-        if (!chordBox->text().isEmpty()) {
-            currentDragLabel = createDragLabel(word);
-            currentDragLabel->setGeometry(DRAG_LABEL_X, DRAG_LABEL_Y, currentDragLabel->width(), currentDragLabel->height());
-            currentDragLabel->show();
-            currentDragLabel->setAttribute(Qt::WA_DeleteOnClose);
-        }
-
-        setAcceptDrops(true);
-}
+//
+//Protected event stuff
+//
 
 /**
  * @brief ChordSelector::dragEnterEvent
@@ -291,7 +317,7 @@ void ChordSelector::dropEvent(QDropEvent *event)
             }
 
             for (const QString &piece : pieces) {
-                QLabel *newLabel = createDragLabel(piece, this);
+                QLabel *newLabel = CreateDragLabel(piece, this);
                 newLabel->move(position - hotSpot);
                 newLabel->show();
                 newLabel->setAttribute(Qt::WA_DeleteOnClose);

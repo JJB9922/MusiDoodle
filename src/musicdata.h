@@ -5,13 +5,26 @@
 #include <QStringList>
 #include <QRegularExpression>
 
+/**
+ * The {@code MusicData} class provides a singleton instance containing static
+ * data related to music notes, types, and variations.
+ * It follows the singleton pattern to ensure a single instance of the class.
+ */
 class MusicData {
 public:
+    /**
+     * Gets the singleton instance of the {@code MusicData} class.
+     *
+     * @return The singleton instance.
+     */
     static MusicData& getInstance() {
         static MusicData instance;
         return instance;
     }
 
+    /**
+     * List of musical notes including natural and altered notes.
+     */
     const QStringList notes = {"Ab", "A", "A#",
                                "Bb", "B", "B#",
                                "Cb", "C", "C#",
@@ -20,6 +33,9 @@ public:
                                "Fb", "F", "F#",
                                "Gb", "G", "G#", "CUSTOM"};
 
+    /**
+     * List of musical types such as Major, Minor, Diminished, etc.
+     */
     const QStringList types = {"Major", "Minor", "Diminished",
                                "Dominant", "Suspended", "Augmented",
                                "Extended"};
@@ -33,9 +49,19 @@ public:
     const QStringList extendedVariations = {"9", "11", "13", "maj9", "maj11", "maj13", "m9", "m11", "m13"};
 
 private:
+    /**
+     * Private default constructor to enforce singleton pattern.
+     */
     MusicData() = default;
 
+    /**
+     * Disable copy constructor.
+     */
     MusicData(const MusicData&) = delete;
+
+    /**
+     * Disable assignment operator.
+     */
     MusicData& operator=(const MusicData&) = delete;
 };
 
