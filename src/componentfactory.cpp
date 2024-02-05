@@ -4,6 +4,15 @@
 #include <QComboBox>
 #include <QTextEdit>
 
+/**
+ * @brief Factory method for creating a new instance of a QLineEdit widget.
+ *
+ * This method is part of the LyricsComponentCreator class, which serves as a factory for creating
+ * various widgets related to lyrics components. It specifically creates and returns a new instance of
+ * a QLineEdit widget.
+ *
+ * @return A pointer to the newly created QLineEdit widget.
+ */
 QWidget* LyricsComponentCreator::FactoryMethod() {
     return new QLineEdit();
 }
