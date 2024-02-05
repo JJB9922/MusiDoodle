@@ -16,8 +16,6 @@ class ChordSelector : public QWidget {
 
 public:
     ChordSelector(QWidget* parent = nullptr);
-    QStackedWidget* getStackedWidget() const { return stackedWidget; }
-    QLineEdit* getChordBox() const { return chordBox; }
     friend class ChordSelectorTest;
     QString chosenNote;
 
