@@ -1,40 +1,15 @@
 #include "chordselector.h"
+#include "musicdata.h"
 
 #include <iostream>
 #include <QTextBrowser>
 #include <QLabel>
 #include <QtWidgets>
 
-//Yes this is ugly and gross and stupid, no I don't care
-static const QString HOTSPOT_MIME_TYPE = QStringLiteral("application/x-hotspot");
-
-static const int DRAG_LABEL_X = 150;
-static const int DRAG_LABEL_Y = 5;
-
-static const QStringList notes = {"Ab", "A", "A#",
-                                  "Bb", "B", "B#",
-                                  "Cb", "C", "C#",
-                                  "Db", "D", "D#",
-                                  "Eb", "E", "E#",
-                                  "Fb", "F", "F#",
-                                  "Gb", "G", "G#", "CUSTOM"};
-
-static const QStringList types = {"Major", "Minor", "Diminished",
-                                  "Dominant", "Suspended", "Augmented",
-                                  "Extended"};
-
-const QStringList majorVariations = {"4", "6", "7", "7-9", "9", "maj", "maj7", "maj9"};
-const QStringList minorVariations = {"m", "m4", "m6", "m7", "m7-9", "m9", "m", "m7", "m9"};
-const QStringList diminishedVariations = {"dim", "dim7"};
-const QStringList dominantVariations = {"7", "7b5", "7#5", "9", "11", "13", "7sus4"};
-const QStringList suspendedVariations = {"sus2", "sus4", "sus7", "sus9"};
-const QStringList augmentedVariations = {"aug", "aug7", "aug9"};
-const QStringList extendedVariations = {"9", "11", "13", "maj9", "maj11", "maj13", "m9", "m11", "m13"};
-
-static const QRegularExpression regex(QStringLiteral("\\s+"));
-
-static QMap<QString, int> typeIndexMap;
-static QString hotSpotMimeDataKey() { return HOTSPOT_MIME_TYPE; }
+MusicData& musicData = MusicData::getInstance();
+QMap<QString, int> typeIndexMap;
+QString hotSpotMimeDataKey() { return QStringLiteral("application/x-hotspot"); }
+QRegularExpression regex(QStringLiteral("\\s+"));
 
 /**
  * @brief ChordSelector::ChordSelector
@@ -117,16 +92,16 @@ ChordSelector::ChordSelector(QWidget *parent) : QWidget(parent) {
  * Adds each item (notes, types and variations) to the appropriate parts of the widget.
  */
 void ChordSelector::initializeChordSelector() {
-    noteListWidget->addItems(notes);
-    typeListWidget->addItems(types);
+    noteListWidget->addItems(musicData.notes);
+    typeListWidget->addItems(musicData.types);
 
-    majorVariationListWidget->addItems(majorVariations);
-    minorVariationListWidget->addItems(minorVariations);
-    diminishedVariationListWidget->addItems(diminishedVariations);
-    dominantVariationListWidget->addItems(dominantVariations);
-    suspendedVariationListWidget->addItems(suspendedVariations);
-    augmentedVariationListWidget->addItems(augmentedVariations);
-    extendedVariationListWidget->addItems(extendedVariations);
+    majorVariationListWidget->addItems(musicData.majorVariations);
+    minorVariationListWidget->addItems(musicData.minorVariations);
+    diminishedVariationListWidget->addItems(musicData.diminishedVariations);
+    dominantVariationListWidget->addItems(musicData.dominantVariations);
+    suspendedVariationListWidget->addItems(musicData.suspendedVariations);
+    augmentedVariationListWidget->addItems(musicData.augmentedVariations);
+    extendedVariationListWidget->addItems(musicData.extendedVariations);
 
     QStringList blankList = {"Type a custom chord above."};
     blankListWidget->addItems(blankList);
@@ -185,7 +160,7 @@ void ChordSelector::onNoteClicked(QListWidgetItem* note) {
  */
 void ChordSelector::onTypeClicked(QListWidgetItem* item) {
     int j = 2;
-    for (const QString& type : types) {
+    for (const QString& type : musicData.types) {
         typeIndexMap.insert(type, j++);
     }
 
@@ -242,6 +217,9 @@ QLabel* ChordSelector::createDragLabel(const QString& text, QWidget *parent)
  * @param word The text content of the chord variation to be visualized.
  */
 void ChordSelector::putDragLabelOnScreen(const QString& word){
+        int DRAG_LABEL_X = 150;
+        int DRAG_LABEL_Y = 5;
+
         if (currentDragLabel) {
             currentDragLabel->deleteLater();
             currentDragLabel = nullptr;
@@ -299,6 +277,7 @@ void ChordSelector::dragEnterEvent(QDragEnterEvent *event)
  */
 void ChordSelector::dropEvent(QDropEvent *event)
 {
+
         if (event->mimeData()->hasText()) {
             const QMimeData *mime = event->mimeData();
             QStringList pieces = mime->text().split(regex, Qt::SkipEmptyParts);
