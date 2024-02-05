@@ -1,4 +1,6 @@
 # MusiDoodle
+https://musidoodle-site.onrender.com/
+
 MusiDoodle is a comprehensive and user-friendly application designed for creating and editing musical compositions. The main interface revolves around an intuitive environment for users to build and modify their music, which are loaded and saved as tracks.
 
 Upon launching the program, users are greeted with a title screen allowing them to start a track, load a track or quit. They also have a "Recent Tracks" tree. The other main view is the track editor window, that serves as the central hub for composing music. The window offers various functionalities, including the ability to add music track components in a very modular fashion - including such as lyrics, chords, and a notebook. Users can easily access these components through a dedicated component picker modal dialog, triggered by a "+" button. There is further scope for "tab" and "sheet music" components, however they're a bit further off.
