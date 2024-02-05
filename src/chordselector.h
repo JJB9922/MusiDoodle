@@ -22,13 +22,13 @@ public:
     QString chosenNote;
 
 public slots:
-    void onNoteClicked(QListWidgetItem* item);
+    void onNoteClicked(QListWidgetItem* note);
 
 private slots:
 
     void onTypeClicked(QListWidgetItem* item);
     void onVariationClicked(QListWidgetItem* item);
-    void onBackClicked();
+    void onResetClicked();
 
 protected:
     void dragEnterEvent(QDragEnterEvent *event) override;
@@ -36,10 +36,7 @@ protected:
     void mousePressEvent(QMouseEvent *event) override;
 
 private:
-    void initializeNotes();
-    void initializeTypes();
-    void initializeVariations();
-    void initializeBlankList();
+    void initializeChordSelector();
     QLabel* createDragLabel(const QString& text, QWidget* parent = nullptr);
     void putDragLabelOnScreen(const QString& word);
 
