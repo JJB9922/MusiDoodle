@@ -154,22 +154,22 @@ QLabel* ChordSelector::CreateDragLabel(const QString& text, QWidget *parent)
  * @param word The text content of the chord variation to be visualized.
  */
 void ChordSelector::PutDragLabelOnScreen(const QString& word){
-        int DRAG_LABEL_X = 150;
-        int DRAG_LABEL_Y = 5;
+    int DRAG_LABEL_X = 150;
+    int DRAG_LABEL_Y = 5;
 
-        if (currentDragLabel) {
-            currentDragLabel->deleteLater();
-            currentDragLabel = nullptr;
-        }
+    if (currentDragLabel) {
+        currentDragLabel->deleteLater();
+        currentDragLabel = nullptr;
+    }
 
-        if (!chordBox->text().isEmpty()) {
-            currentDragLabel = CreateDragLabel(word);
-            currentDragLabel->setGeometry(DRAG_LABEL_X, DRAG_LABEL_Y, currentDragLabel->width(), currentDragLabel->height());
-            currentDragLabel->show();
-            currentDragLabel->setAttribute(Qt::WA_DeleteOnClose);
-        }
+    if (!chordBox->text().isEmpty()) {
+        currentDragLabel = CreateDragLabel(word);
+        currentDragLabel->setGeometry(DRAG_LABEL_X, DRAG_LABEL_Y, currentDragLabel->width(), currentDragLabel->height());
+        currentDragLabel->show();
+        currentDragLabel->setAttribute(Qt::WA_DeleteOnClose);
+    }
 
-        setAcceptDrops(true);
+    setAcceptDrops(true);
 }
 
 //
@@ -184,14 +184,14 @@ void ChordSelector::PutDragLabelOnScreen(const QString& word){
  * Also clears the chord box.
  */
 void ChordSelector::onResetClicked() {
-        stackedWidget->setCurrentIndex(0);
-        chordBox->clear();
-        chordBox->setReadOnly(true);
+    stackedWidget->setCurrentIndex(0);
+    chordBox->clear();
+    chordBox->setReadOnly(true);
 
-        if (currentDragLabel) {
-            currentDragLabel->deleteLater();
-            currentDragLabel = nullptr;
-        }
+    if (currentDragLabel) {
+        currentDragLabel->deleteLater();
+        currentDragLabel = nullptr;
+    }
 }
 
 /**
@@ -204,16 +204,16 @@ void ChordSelector::onResetClicked() {
  * @param note The item (note) that was clicked
  */
 void ChordSelector::onNoteClicked(QListWidgetItem* note) {
-        if (note->text() != "CUSTOM") {
-            stackedWidget->setCurrentIndex(1);
-            chosenNote = note->text();
-            chordBox->setText(chosenNote);
+    if (note->text() != "CUSTOM") {
+        stackedWidget->setCurrentIndex(1);
+        chosenNote = note->text();
+        chordBox->setText(chosenNote);
 
-        } else {
-            stackedWidget ->setCurrentIndex(stackedWidget->count()-1);
-            chordBox->setReadOnly(false);
-            PutDragLabelOnScreen(chordBox->text());
-        }
+    } else {
+        stackedWidget ->setCurrentIndex(stackedWidget->count()-1);
+        chordBox->setReadOnly(false);
+        PutDragLabelOnScreen(chordBox->text());
+    }
 }
 
 /**
@@ -228,16 +228,16 @@ void ChordSelector::onNoteClicked(QListWidgetItem* note) {
  * @param item The QListWidgetItem representing the clicked chord type.
  */
 void ChordSelector::onTypeClicked(QListWidgetItem* item) {
-        int j = 2;
-        for (const QString& type : musicData.types) {
-            typeIndexMap.insert(type, j++);
-        }
+    int j = 2;
+    for (const QString& type : musicData.types) {
+        typeIndexMap.insert(type, j++);
+    }
 
-        const QString& itemType = item->text();
+    const QString& itemType = item->text();
 
-        if (typeIndexMap.contains(itemType)) {
-            stackedWidget->setCurrentIndex(typeIndexMap.value(itemType));
-        }
+    if (typeIndexMap.contains(itemType)) {
+        stackedWidget->setCurrentIndex(typeIndexMap.value(itemType));
+    }
 }
 
 /**
@@ -252,9 +252,9 @@ void ChordSelector::onTypeClicked(QListWidgetItem* item) {
  * @param item The QListWidgetItem representing the clicked chord variation.
  */
 void ChordSelector::onVariationClicked(QListWidgetItem* item) {
-        QString chordText = chosenNote + item->text();
-        chordBox->setText(chordText);
-        PutDragLabelOnScreen(chordText);
+    QString chordText = chosenNote + item->text();
+    chordBox->setText(chordText);
+    PutDragLabelOnScreen(chordText);
 }
 
 //
@@ -275,16 +275,16 @@ void ChordSelector::onVariationClicked(QListWidgetItem* item) {
  */
 void ChordSelector::dragEnterEvent(QDragEnterEvent *event)
 {
-        if (event->mimeData()->hasText()) {
-            if (event->source() == this) {
-                event->setDropAction(Qt::MoveAction);
-                event->accept();
-            } else {
-                event->acceptProposedAction();
-            }
+    if (event->mimeData()->hasText()) {
+        if (event->source() == this) {
+            event->setDropAction(Qt::MoveAction);
+            event->accept();
         } else {
-            event->ignore();
+            event->acceptProposedAction();
         }
+    } else {
+        event->ignore();
+    }
 }
 
 /**
@@ -303,35 +303,34 @@ void ChordSelector::dragEnterEvent(QDragEnterEvent *event)
  */
 void ChordSelector::dropEvent(QDropEvent *event)
 {
+    if (event->mimeData()->hasText()) {
+        const QMimeData *mime = event->mimeData();
+        QStringList pieces = mime->text().split(regex, Qt::SkipEmptyParts);
+        QPoint position = event->position().toPoint();
+        QPoint hotSpot;
 
-        if (event->mimeData()->hasText()) {
-            const QMimeData *mime = event->mimeData();
-            QStringList pieces = mime->text().split(regex, Qt::SkipEmptyParts);
-            QPoint position = event->position().toPoint();
-            QPoint hotSpot;
-
-            QByteArrayList hotSpotPos = mime->data(hotSpotMimeDataKey()).split(' ');
-            if (hotSpotPos.size() == 2) {
-                hotSpot.setX(hotSpotPos.first().toInt());
-                hotSpot.setY(hotSpotPos.last().toInt());
-            }
-
-            for (const QString &piece : pieces) {
-                QLabel *newLabel = CreateDragLabel(piece, this);
-                newLabel->move(position - hotSpot);
-                newLabel->show();
-                newLabel->setAttribute(Qt::WA_DeleteOnClose);
-
-                position += QPoint(newLabel->width(), 0);
-            }
-
-            if (event->source() == this) {
-                event->setDropAction(Qt::MoveAction);
-                event->accept();
-            } else {
-                event->acceptProposedAction();
-            }
+        QByteArrayList hotSpotPos = mime->data(hotSpotMimeDataKey()).split(' ');
+        if (hotSpotPos.size() == 2) {
+            hotSpot.setX(hotSpotPos.first().toInt());
+            hotSpot.setY(hotSpotPos.last().toInt());
         }
+
+        for (const QString &piece : pieces) {
+            QLabel *newLabel = CreateDragLabel(piece, this);
+            newLabel->move(position - hotSpot);
+            newLabel->show();
+            newLabel->setAttribute(Qt::WA_DeleteOnClose);
+
+            position += QPoint(newLabel->width(), 0);
+        }
+
+        if (event->source() == this) {
+            event->setDropAction(Qt::MoveAction);
+            event->accept();
+        } else {
+            event->acceptProposedAction();
+        }
+    }
 }
 
 /**
@@ -351,36 +350,36 @@ void ChordSelector::dropEvent(QDropEvent *event)
  */
 void ChordSelector::mousePressEvent(QMouseEvent *event)
 {
-        QLabel *child = qobject_cast<QLabel*>(childAt(event->position().toPoint()));
-        if (!child)
-            return;
+    QLabel *child = qobject_cast<QLabel*>(childAt(event->position().toPoint()));
+    if (!child)
+        return;
 
-        if (currentDragLabel) {
-            currentDragLabel->deleteLater();
-            currentDragLabel = nullptr;
-        }
+    if (currentDragLabel) {
+        currentDragLabel->deleteLater();
+        currentDragLabel = nullptr;
+    }
 
-        QPoint hotSpot = event->position().toPoint() - child->pos();
+    QPoint hotSpot = event->position().toPoint() - child->pos();
 
-        std::unique_ptr<QMimeData> mimeData = std::make_unique<QMimeData>();
-        mimeData->setText(child->text());
-        mimeData->setData(hotSpotMimeDataKey(),
-                          QByteArray::number(hotSpot.x()) + ' ' + QByteArray::number(hotSpot.y()));
+    std::unique_ptr<QMimeData> mimeData = std::make_unique<QMimeData>();
+    mimeData->setText(child->text());
+    mimeData->setData(hotSpotMimeDataKey(),
+                      QByteArray::number(hotSpot.x()) + ' ' + QByteArray::number(hotSpot.y()));
 
-        qreal dpr = window()->windowHandle()->devicePixelRatio();
-        QPixmap pixmap(child->size() * dpr);
-        pixmap.setDevicePixelRatio(dpr);
-        child->render(&pixmap);
+    qreal dpr = window()->windowHandle()->devicePixelRatio();
+    QPixmap pixmap(child->size() * dpr);
+    pixmap.setDevicePixelRatio(dpr);
+    child->render(&pixmap);
 
-        std::unique_ptr<QDrag> drag = std::make_unique<QDrag>(this);
-        drag->setMimeData(mimeData.release());
-        drag->setPixmap(pixmap);
-        drag->setHotSpot(hotSpot);
+    std::unique_ptr<QDrag> drag = std::make_unique<QDrag>(this);
+    drag->setMimeData(mimeData.release());
+    drag->setPixmap(pixmap);
+    drag->setHotSpot(hotSpot);
 
-        Qt::DropAction dropAction = drag->exec(Qt::CopyAction | Qt::MoveAction, Qt::CopyAction);
+    Qt::DropAction dropAction = drag->exec(Qt::CopyAction | Qt::MoveAction, Qt::CopyAction);
 
-        if (dropAction == Qt::MoveAction)
-            child->close();
+    if (dropAction == Qt::MoveAction)
+        child->close();
 }
 
 

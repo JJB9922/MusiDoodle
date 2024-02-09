@@ -2,6 +2,7 @@
 #define COMPONENTFACTORY_H
 
 #include <QWidget>
+#include <QStackedWidget>
 
 class ComponentFactory
 {

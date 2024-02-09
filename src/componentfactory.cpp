@@ -3,6 +3,7 @@
 #include <QLineEdit>
 #include <QComboBox>
 #include <QTextEdit>
+#include <QStackedWidget>
 
 /**
  * @brief Factory method for creating a new instance of a QLineEdit widget.
@@ -18,7 +19,7 @@ QWidget* LyricsComponentCreator::FactoryMethod() {
 }
 
 QWidget* ChordsComponentCreator::FactoryMethod() {
-    return new QLineEdit();
+    return new QStackedWidget();
 }
 
 QWidget* NotebookComponentCreator::FactoryMethod() {

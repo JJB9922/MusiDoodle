@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QPushButton>
+#include <QListWidget>
 #include "newcomponentpicker.h"
 #include "componentfactory.h"
 
@@ -23,11 +24,15 @@ private slots:
     void on_actionSave_As_triggered();
     void showNewComponentPicker();  // Declaration of the new slot
 
+protected:
+    void dropEvent(QDropEvent *event) override;
+
 private:
     void saveToFile();
-    void createComponent(QWidget *componentToUse);
+    void createComponent(QWidget *componentToUse, QString selectedComponentType);
 
     Ui::TrackEditorWindow *ui;
+    QWidget* componentToUse;
 };
 
 #endif // TRACKEDITORWINDOW_H
