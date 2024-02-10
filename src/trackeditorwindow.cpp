@@ -137,17 +137,8 @@ void TrackEditorWindow::createComponent(QWidget* componentToUse, QString selecte
     this->componentToUse = componentToUse;
 
     QSize size = qApp->screens()[0]->size();
-    componentToUse->setFixedSize(2*(size.width()/3), 64);
+    componentToUse->setFixedSize(2*(size.width()/3), 32);
     auto button = qobject_cast<QPushButton*>(sender());
-
-    if(selectedComponentType == "Chords"){
-        auto blankList = new QListWidget();
-        blankList->setParent(componentToUse);
-        blankList->acceptDrops();
-        QStackedWidget* stackedWidget = dynamic_cast<QStackedWidget*>(componentToUse);
-        stackedWidget->addWidget(blankList);
-        stackedWidget->acceptDrops();
-    }
 
     if (button) {
         auto buttonPos = button->pos();
@@ -163,22 +154,3 @@ void TrackEditorWindow::createComponent(QWidget* componentToUse, QString selecte
     }
 }
 
-//DRY yeah yeah yah
-void TrackEditorWindow::dropEvent(QDropEvent *event)
-{
-    if (event->mimeData()->hasText()) {
-        const QMimeData *mime = event->mimeData();
-        QString text = mime->text();
-
-        if (this->componentToUse) {
-            QLabel *newLabel = new QLabel(text, this->componentToUse);
-            QPoint labelPos = event->position().toPoint() - this->componentToUse->pos();
-            newLabel->move(labelPos);
-            newLabel->show();
-            event->accept();
-            return;
-        }
-    }
-
-    QWidget::dropEvent(event);
-}

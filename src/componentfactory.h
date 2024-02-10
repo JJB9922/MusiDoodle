@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QStackedWidget>
+#include "dropwidget.h"
 
 class ComponentFactory
 {

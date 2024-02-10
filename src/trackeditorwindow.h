@@ -24,9 +24,6 @@ private slots:
     void on_actionSave_As_triggered();
     void showNewComponentPicker();  // Declaration of the new slot
 
-protected:
-    void dropEvent(QDropEvent *event) override;
-
 private:
     void saveToFile();
     void createComponent(QWidget *componentToUse, QString selectedComponentType);

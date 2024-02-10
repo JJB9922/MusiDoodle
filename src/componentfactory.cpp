@@ -19,7 +19,7 @@ QWidget* LyricsComponentCreator::FactoryMethod() {
 }
 
 QWidget* ChordsComponentCreator::FactoryMethod() {
-    return new QStackedWidget();
+    return new DropWidget();
 }
 
 QWidget* NotebookComponentCreator::FactoryMethod() {
