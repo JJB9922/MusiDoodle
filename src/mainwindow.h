@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 #include <QtWidgets>
-#include "trackeditorwindow.h"
+#include "Screens/trackeditorwindow.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {

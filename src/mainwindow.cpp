@@ -1,5 +1,5 @@
 #include "mainwindow.h"
-#include "trackeditorwindow.h"
+#include "Screens/trackeditorwindow.h"
 #include "./ui_mainwindow.h"
 #include <iostream>
 #include <QtWidgets>

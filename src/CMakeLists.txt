@@ -25,12 +25,12 @@ set(PROJECT_SOURCES
         mainwindow.cpp
         mainwindow.h
         mainwindow.ui
-        trackeditorwindow.h
-        trackeditorwindow.cpp
-        trackeditorwindow.ui
+        Screens/trackeditorwindow.h
+        Screens/trackeditorwindow.cpp
+        QTUiFiles/trackeditorwindow.ui
         newcomponentpicker.h
         newcomponentpicker.cpp
-        newcomponentpicker.ui
+        QTUiFiles/newcomponentpicker.ui
         componentfactory.h
         componentfactory.cpp
         chordselector.h
@@ -41,14 +41,17 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(MusiDoodle
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
-        trackeditorwindow.h trackeditorwindow.cpp trackeditorwindow.ui
-        newcomponentpicker.h newcomponentpicker.cpp newcomponentpicker.ui
+        Screens/trackeditorwindow.h Screens/trackeditorwindow.cpp QTUiFiles/trackeditorwindow.ui
+        newcomponentpicker.h newcomponentpicker.cpp QTUiFiles/newcomponentpicker.ui
         componentfactory.h componentfactory.cpp
 
         chordselector.h chordselector.cpp
         musicdata.h
-        dropwidget.h dropwidget.cpp
-        iserializable.h
+        Utils/iserializable.h
+        Utils/dropwidget.cpp Utils/dropwidget.h
+        Screens/trackeditorwindow.cpp Screens/trackeditorwindow.h
+        QTUiFiles/trackeditorwindow.ui Screens/trackeditorwindow.cpp Screens/trackeditorwindow.h
+        mainwindow.ui
 
 
     )
