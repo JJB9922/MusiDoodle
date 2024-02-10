@@ -29,6 +29,10 @@ QRegularExpression regex(QStringLiteral("\\s+"));
 ChordSelector::ChordSelector(QWidget *parent) : QWidget(parent) {
     QVBoxLayout* mainLayout = new QVBoxLayout(this);
 
+    dropWidget = new DropWidget(this);
+    connect(dropWidget, &DropWidget::labelDropped, this, &ChordSelector::deleteLabel);
+    dropWidget->hide();
+
     chordBox = new QLineEdit(this);
     chordBox->setFixedSize(128, 32);
     chordBox->setReadOnly(true);
@@ -382,4 +386,10 @@ void ChordSelector::mousePressEvent(QMouseEvent *event)
         child->close();
 }
 
+void ChordSelector::deleteLabel(const QString &text) {
+    QList<QLabel *> labels = findChildren<QLabel *>(text);
+    for (QLabel *label : labels) {
+        label->deleteLater();
+    }
+}
 

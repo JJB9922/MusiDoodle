@@ -79,10 +79,17 @@ void TrackEditorWindow::saveToFile()
 
         QDataStream out(&file);
         out.setVersion(QDataStream::Qt_4_5);
-        //out << track; //still need to define track data
+
+        for (QWidget* component : findChildren<QWidget*>()) {
+            if (auto* serializableComponent = dynamic_cast<ISerializable*>(component)) {
+                serializableComponent->serialize(out);
+            }
+        }
+
+        QMessageBox::information(this, tr("Save Successful"),
+                                 tr("Track saved successfully."));
     }
 }
-
 /**
  * @brief Displays a dialog for selecting a new music track component and creates it based on user choice.
  *

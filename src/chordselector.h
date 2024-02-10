@@ -1,6 +1,8 @@
 #ifndef CHORDSELECTOR_H
 #define CHORDSELECTOR_H
 
+#include "dropwidget.h"
+
 #include <QApplication>
 #include <QWidget>
 #include <QVBoxLayout>
@@ -19,6 +21,7 @@ public:
     friend class ChordSelectorTest;
     QString chosenNote;
 
+
 public slots:
     void onNoteClicked(QListWidgetItem* note);
 
@@ -26,6 +29,7 @@ private slots:
     void onTypeClicked(QListWidgetItem* item);
     void onVariationClicked(QListWidgetItem* item);
     void onResetClicked();
+    void deleteLabel(const QString &text);
 
 protected:
     void dragEnterEvent(QDragEnterEvent *event) override;
@@ -41,6 +45,7 @@ private:
 
     QLabel* currentDragLabel = nullptr;
 
+    DropWidget* dropWidget;
     QListWidget* noteListWidget;
     QListWidget* typeListWidget;
     QListWidget* majorVariationListWidget;
