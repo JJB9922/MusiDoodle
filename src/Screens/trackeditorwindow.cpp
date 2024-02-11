@@ -73,13 +73,12 @@ void TrackEditorWindow::saveToFile()
         return;
 
     QDataStream out(&file);
-    TrackSaveData trackSaveData;
 
+    TrackSaveData trackSaveData;
     trackSaveData.tempo = ui->tempoBox->value();
     trackSaveData.keyNoteIndex = ui->keyNoteComboBox->currentIndex();
     trackSaveData.keyToneIndex = ui->keyToneBox->currentIndex();
     trackSaveData.keyModeIndex = ui->keyModeComboBox->currentIndex();
-
     out << trackSaveData;
 
     file.close();
@@ -94,7 +93,6 @@ void TrackEditorWindow::loadTrackData(QDataStream file){
     ui->keyNoteComboBox->setCurrentIndex(data.keyNoteIndex);
     ui->keyToneBox->setCurrentIndex(data.keyToneIndex);
     ui->keyModeComboBox->setCurrentIndex(data.keyModeIndex);
-
 }
 
 /**
@@ -166,5 +164,6 @@ void TrackEditorWindow::createComponent(QWidget* componentToUse, QString selecte
 
         connect(newButton, &QPushButton::clicked, this, &TrackEditorWindow::showNewComponentPicker);
     }
-}
 
+    addedComponents.append(componentToUse);
+}

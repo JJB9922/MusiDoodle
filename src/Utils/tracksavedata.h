@@ -12,17 +12,16 @@ struct TrackSaveData
     int keyNoteIndex;
     int keyToneIndex;
     int keyModeIndex;
-    QVector<QJsonObject> componentData;
 
     friend QDataStream &operator << (QDataStream &out, const TrackSaveData &d)
     {
-        out << d.tempo << d.keyNoteIndex << d.keyToneIndex << d.keyModeIndex << d.componentData;
+        out << d.tempo << d.keyNoteIndex << d.keyToneIndex << d.keyModeIndex;
         return out;
     }
 
     friend QDataStream &operator >> (QDataStream &in, TrackSaveData &d)
     {
-        in >> d.tempo >> d.keyNoteIndex >> d.keyToneIndex >> d.keyModeIndex >> d.componentData;
+        in >> d.tempo >> d.keyNoteIndex >> d.keyToneIndex >> d.keyModeIndex;
         return in;
     }
 };

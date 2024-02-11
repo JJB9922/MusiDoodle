@@ -32,6 +32,7 @@ private:
     void saveToFile();
     void createComponent(QWidget *componentToUse, QString selectedComponentType);
 
+    QVector<QWidget*> addedComponents;
     Ui::TrackEditorWindow *ui;
     QWidget* componentToUse;
 };

@@ -1,5 +1,8 @@
 #include "dropwidget.h"
+
 #include <QMouseEvent>
+#include <QJsonObject>
+#include <QJsonArray>
 
 DropWidget::DropWidget(QWidget *parent) : QWidget(parent) {
     setAcceptDrops(true);
