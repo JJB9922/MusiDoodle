@@ -1,5 +1,5 @@
 #include "newcomponentpicker.h"
-#include "ui_newcomponentpicker.h"
+#include "../QTUiFiles/ui_newcomponentpicker.h"
 
 NewComponentPicker::NewComponentPicker(QWidget *parent)
     : QDialog(parent), ui(new Ui::NewComponentPicker)

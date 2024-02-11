@@ -2,7 +2,7 @@
 #define NEWCOMPONENTPICKER_H
 
 #include <QDialog>
-#include <QString>  // Include this header for QString
+#include <QString>
 
 namespace Ui {
 class NewComponentPicker;

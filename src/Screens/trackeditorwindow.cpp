@@ -1,6 +1,6 @@
 #include "trackeditorwindow.h"
 #include "../QTUiFiles/ui_trackeditorwindow.h"
-#include "../chordselector.h"
+#include "../Components/chordselector.h"
 
 
 #include <iostream>

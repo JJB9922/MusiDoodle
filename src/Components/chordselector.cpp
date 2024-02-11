@@ -1,5 +1,5 @@
 #include "chordselector.h"
-#include "musicdata.h"
+#include "../Utils/musicdata.h"
 
 #include <iostream>
 #include <QTextBrowser>

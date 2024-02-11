@@ -4,8 +4,8 @@
 #include <QMainWindow>
 #include <QPushButton>
 #include <QListWidget>
-#include "../newcomponentpicker.h"
-#include "../componentfactory.h"
+#include "newcomponentpicker.h"
+#include "../Utils/componentfactory.h"
 #include "../Utils/iserializable.h"
 
 namespace Ui {

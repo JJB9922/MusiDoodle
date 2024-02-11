@@ -1,7 +1,7 @@
 #ifndef CHORDSELECTOR_H
 #define CHORDSELECTOR_H
 
-#include "Utils/dropwidget.h"
+#include "../Utils/dropwidget.h"
 
 #include <QApplication>
 #include <QWidget>

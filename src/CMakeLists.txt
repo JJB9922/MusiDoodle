@@ -22,19 +22,19 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
 set(PROJECT_SOURCES
         main.cpp
-        mainwindow.cpp
-        mainwindow.h
-        mainwindow.ui
+        Screens/mainwindow.cpp
+        Screens/mainwindow.h
+        QTUiFiles/mainwindow.ui
         Screens/trackeditorwindow.h
         Screens/trackeditorwindow.cpp
         QTUiFiles/trackeditorwindow.ui
-        newcomponentpicker.h
-        newcomponentpicker.cpp
+        Screens/newcomponentpicker.h
+        Screens/newcomponentpicker.cpp
         QTUiFiles/newcomponentpicker.ui
-        componentfactory.h
-        componentfactory.cpp
-        chordselector.h
-        chordselector.cpp
+        Utils/componentfactory.h
+        Utils/componentfactory.cpp
+        Components/chordselector.h
+        Components/chordselector.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -42,16 +42,17 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
         Screens/trackeditorwindow.h Screens/trackeditorwindow.cpp QTUiFiles/trackeditorwindow.ui
-        newcomponentpicker.h newcomponentpicker.cpp QTUiFiles/newcomponentpicker.ui
-        componentfactory.h componentfactory.cpp
+        Screens/newcomponentpicker.h Screens/newcomponentpicker.cpp QTUiFiles/newcomponentpicker.ui
+        Utils/componentfactory.h Utils/componentfactory.cpp
 
-        chordselector.h chordselector.cpp
-        musicdata.h
+        Components/chordselector.h Components/chordselector.cpp
+        Utils/musicdata.h
         Utils/iserializable.h
         Utils/dropwidget.cpp Utils/dropwidget.h
         Screens/trackeditorwindow.cpp Screens/trackeditorwindow.h
         QTUiFiles/trackeditorwindow.ui Screens/trackeditorwindow.cpp Screens/trackeditorwindow.h
-        mainwindow.ui
+        QTUiFiles/mainwindow.ui
+        QTUiFiles/newcomponentpicker.ui QTUiFiles/trackeditorwindow.ui Screens/trackeditorwindow.cpp Screens/trackeditorwindow.h Utils/dropwidget.cpp Utils/dropwidget.h  Utils/iserializable.h
 
 
     )
