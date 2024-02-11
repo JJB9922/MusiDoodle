@@ -53,12 +53,7 @@ void MainWindow::loadFromFile()
         close();
         trackEditorWindow = new TrackEditorWindow(this);
         trackEditorWindow->show();
-
-        // Pass in the file to the track editor via param
-        // QDataStream in(&file);
-        // in.setVersion(QDataStream::Qt_4_5);
-        // track.clear();   // clear existing track... Shouldnt be necessary unless load is added to track editor view
-        // in >> track;
+        trackEditorWindow->loadTrackData(file.readAll());
     }
 }
 

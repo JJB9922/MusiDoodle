@@ -1,7 +1,4 @@
 #include "trackeditorwindow.h"
-#include "../QTUiFiles/ui_trackeditorwindow.h"
-#include "../Components/chordselector.h"
-
 
 #include <iostream>
 #include <QtWidgets>
@@ -69,27 +66,37 @@ void TrackEditorWindow::saveToFile()
 
     if (fileName.isEmpty())
         return;
-    else {
-        QFile file(fileName);
-        if (!file.open(QIODevice::WriteOnly)) {
-            QMessageBox::information(this, tr("Unable to open file"),
-                                     file.errorString());
-            return;
-        }
 
-        QDataStream out(&file);
-        out.setVersion(QDataStream::Qt_4_5);
+    QFile file(fileName);
 
-        for (QWidget* component : findChildren<QWidget*>()) {
-            if (auto* serializableComponent = dynamic_cast<ISerializable*>(component)) {
-                serializableComponent->serialize(out);
-            }
-        }
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
+        return;
 
-        QMessageBox::information(this, tr("Save Successful"),
-                                 tr("Track saved successfully."));
-    }
+    QDataStream out(&file);
+    TrackSaveData trackSaveData;
+
+    trackSaveData.tempo = ui->tempoBox->value();
+    trackSaveData.keyNoteIndex = ui->keyNoteComboBox->currentIndex();
+    trackSaveData.keyToneIndex = ui->keyToneBox->currentIndex();
+    trackSaveData.keyModeIndex = ui->keyModeComboBox->currentIndex();
+
+    out << trackSaveData;
+
+    file.close();
 }
+
+void TrackEditorWindow::loadTrackData(QDataStream file){
+
+    TrackSaveData data;
+    file >> data;
+
+    ui->tempoBox->setValue(data.tempo);
+    ui->keyNoteComboBox->setCurrentIndex(data.keyNoteIndex);
+    ui->keyToneBox->setCurrentIndex(data.keyToneIndex);
+    ui->keyModeComboBox->setCurrentIndex(data.keyModeIndex);
+
+}
+
 /**
  * @brief Displays a dialog for selecting a new music track component and creates it based on user choice.
  *

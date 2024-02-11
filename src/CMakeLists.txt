@@ -47,12 +47,13 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
 
         Components/chordselector.h Components/chordselector.cpp
         Utils/musicdata.h
-        Utils/iserializable.h
+
         Utils/dropwidget.cpp Utils/dropwidget.h
         Screens/trackeditorwindow.cpp Screens/trackeditorwindow.h
         QTUiFiles/trackeditorwindow.ui Screens/trackeditorwindow.cpp Screens/trackeditorwindow.h
         QTUiFiles/mainwindow.ui
-        QTUiFiles/newcomponentpicker.ui QTUiFiles/trackeditorwindow.ui Screens/trackeditorwindow.cpp Screens/trackeditorwindow.h Utils/dropwidget.cpp Utils/dropwidget.h  Utils/iserializable.h
+        QTUiFiles/newcomponentpicker.ui QTUiFiles/trackeditorwindow.ui Screens/trackeditorwindow.cpp Screens/trackeditorwindow.h Utils/dropwidget.cpp Utils/dropwidget.h
+        Utils/tracksavedata.h
 
 
     )

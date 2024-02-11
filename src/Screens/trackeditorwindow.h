@@ -6,22 +6,22 @@
 #include <QListWidget>
 #include "newcomponentpicker.h"
 #include "../Utils/componentfactory.h"
-#include "../Utils/iserializable.h"
+#include "../QTUiFiles/ui_trackeditorwindow.h"
+#include "../Components/chordselector.h"
+#include "../Utils/tracksavedata.h"
 
 namespace Ui {
 class TrackEditorWindow;
 }
 
-class TrackEditorWindow : public QMainWindow, public ISerializable
+class TrackEditorWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
     TrackEditorWindow(QWidget *parent = nullptr);
     ~TrackEditorWindow();
-    void serialize(QDataStream& out) const override {
-        out << "Test";
-    }
+    void loadTrackData(QDataStream file);
 
 private slots:
     void on_actionQuit_triggered();
