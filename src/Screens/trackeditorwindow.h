@@ -26,15 +26,20 @@ public:
 private slots:
     void on_actionQuit_triggered();
     void on_actionSave_As_triggered();
-    void showNewComponentPicker();  // Declaration of the new slot
+    void showNewComponentPicker();
+
+    void on_actionMain_Menu_triggered();
 
 private:
     void saveToFile();
     void createComponent(QWidget *componentToUse, QString selectedComponentType);
+    void assignAndCreateSelectedComponent(QString selectedComponentType);
 
-    QVector<QWidget*> addedComponents;
     Ui::TrackEditorWindow *ui;
     QWidget* componentToUse;
+    QMainWindow *mainWindow;
+    std::vector<QString> addedWidgets;
+    QVector<QWidget*> addedComponents;
 };
 
 #endif // TRACKEDITORWINDOW_H

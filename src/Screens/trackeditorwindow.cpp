@@ -14,21 +14,20 @@
  */
 TrackEditorWindow::TrackEditorWindow(QWidget *parent)
     : QMainWindow(parent),
-    ui(new Ui::TrackEditorWindow)
+      ui(new Ui::TrackEditorWindow)
 {
     ui->setupUi(this);
     QSize size = qApp->screens()[0]->size();
 
-    QPushButton* initialButton = new QPushButton(QString("+"), this);
-    initialButton->move(size.width()/128, size.width()/24);
+    QPushButton *initialButton = new QPushButton(QString("+"), this);
+    initialButton->move(size.width() / 128, size.width() / 24);
     initialButton->setVisible(true);
 
-    ChordSelector* chordSelector = new ChordSelector(this);
+    ChordSelector *chordSelector = new ChordSelector(this);
     chordSelector->setParent(this);
 
-    //dewiniaeth fathemategol ardderchog
-    chordSelector->setFixedSize(size.width()/3 - size.width()/20, size.height()/2);
-    chordSelector->move(2*(size.width()/3) + size.width()/48, size.height()/16);
+    chordSelector->setFixedSize(size.width() / 3 - size.width() / 20, size.height() / 2);
+    chordSelector->move(2 * (size.width() / 3) + size.width() / 48, size.height() / 16);
 
     connect(initialButton, &QPushButton::clicked, this, &TrackEditorWindow::showNewComponentPicker);
 }
@@ -47,9 +46,20 @@ TrackEditorWindow::~TrackEditorWindow()
  */
 void TrackEditorWindow::on_actionQuit_triggered()
 {
-    //Check save state etc
+    // Check save state etc
 
     QCoreApplication::quit();
+}
+
+void TrackEditorWindow::on_actionMain_Menu_triggered()
+{
+    // Check save state
+    //  close();
+    //  delete ui;
+    this->hide();
+
+    QWidget *parent = this->parentWidget();
+    parent->show();
 }
 
 void TrackEditorWindow::on_actionSave_As_triggered()
@@ -67,6 +77,8 @@ void TrackEditorWindow::saveToFile()
     if (fileName.isEmpty())
         return;
 
+    fileName = fileName + ".tr";
+
     QFile file(fileName);
 
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
@@ -79,12 +91,14 @@ void TrackEditorWindow::saveToFile()
     trackSaveData.keyNoteIndex = ui->keyNoteComboBox->currentIndex();
     trackSaveData.keyToneIndex = ui->keyToneBox->currentIndex();
     trackSaveData.keyModeIndex = ui->keyModeComboBox->currentIndex();
+    trackSaveData.addedWidgets = addedWidgets;
     out << trackSaveData;
 
     file.close();
 }
 
-void TrackEditorWindow::loadTrackData(QDataStream file){
+void TrackEditorWindow::loadTrackData(QDataStream file)
+{
 
     TrackSaveData data;
     file >> data;
@@ -93,6 +107,11 @@ void TrackEditorWindow::loadTrackData(QDataStream file){
     ui->keyNoteComboBox->setCurrentIndex(data.keyNoteIndex);
     ui->keyToneBox->setCurrentIndex(data.keyToneIndex);
     ui->keyModeComboBox->setCurrentIndex(data.keyModeIndex);
+
+    //Doesn't work :cry:
+    for(QString component : data.addedWidgets) {
+        assignAndCreateSelectedComponent(component);
+    }
 }
 
 /**
@@ -109,23 +128,35 @@ void TrackEditorWindow::showNewComponentPicker()
     static NewComponentPicker newComponentPicker(this);
     newComponentPicker.setModal(true);
 
-    if (newComponentPicker.exec() == QDialog::Accepted) {
+    if (newComponentPicker.exec() == QDialog::Accepted)
+    {
         QString selectedComponentType = newComponentPicker.getSelectedComponentType();
+        addedWidgets.push_back(selectedComponentType);
+        assignAndCreateSelectedComponent(selectedComponentType);
+    }
+}
 
-        std::unique_ptr<ComponentFactory> factory;
+void TrackEditorWindow::assignAndCreateSelectedComponent(QString selectedComponentType)
+{
+    std::unique_ptr<ComponentFactory> factory;
 
-        if (selectedComponentType == "Lyrics") {
-            factory = std::make_unique<LyricsComponentCreator>();
-        } else if (selectedComponentType == "Chords") {
-            factory = std::make_unique<ChordsComponentCreator>();
-        } else if (selectedComponentType == "Notebook") {
-            factory = std::make_unique<NotebookComponentCreator>();
-        }
+    if (selectedComponentType == "Lyrics")
+    {
+        factory = std::make_unique<LyricsComponentCreator>();
+    }
+    else if (selectedComponentType == "Chords")
+    {
+        factory = std::make_unique<ChordsComponentCreator>();
+    }
+    else if (selectedComponentType == "Notebook")
+    {
+        factory = std::make_unique<NotebookComponentCreator>();
+    }
 
-        if (factory) {
-            QWidget* componentToUse = factory->CreateComponent();
-            createComponent(componentToUse, selectedComponentType);
-        }
+    if (factory)
+    {
+        QWidget *componentToUse = factory->CreateComponent();
+        createComponent(componentToUse, selectedComponentType);
     }
 }
 
@@ -139,9 +170,10 @@ void TrackEditorWindow::showNewComponentPicker()
  * @param componentToUse A pointer to the QWidget representing the music track component to be created.
  * @see TrackEditorWindow::showNewComponentPicker
  */
-void TrackEditorWindow::createComponent(QWidget* componentToUse, QString selectedComponentType)
+void TrackEditorWindow::createComponent(QWidget *componentToUse, QString selectedComponentType)
 {
-    if (!componentToUse) {
+    if (!componentToUse)
+    {
         std::cerr << "Invalid component." << std::endl;
         return;
     }
@@ -149,17 +181,18 @@ void TrackEditorWindow::createComponent(QWidget* componentToUse, QString selecte
     this->componentToUse = componentToUse;
 
     QSize size = qApp->screens()[0]->size();
-    componentToUse->setFixedSize(2*(size.width()/3), 32);
-    auto button = qobject_cast<QPushButton*>(sender());
+    componentToUse->setFixedSize(2 * (size.width() / 3), 32);
+    auto button = qobject_cast<QPushButton *>(sender());
 
-    if (button) {
+    if (button)
+    {
         auto buttonPos = button->pos();
         button->hide();
-        componentToUse->move(buttonPos.x(), buttonPos.y() + size.height()/128);
+        componentToUse->move(buttonPos.x(), buttonPos.y() + size.height() / 128);
         componentToUse->setParent(this);
         componentToUse->show();
-        QPushButton* newButton = new QPushButton(QString("+"), this);
-        newButton->move(buttonPos.x(), buttonPos.y() + size.height()/20);
+        QPushButton *newButton = new QPushButton(QString("+"), this);
+        newButton->move(buttonPos.x(), buttonPos.y() + size.height() / 20);
         newButton->setVisible(true);
 
         connect(newButton, &QPushButton::clicked, this, &TrackEditorWindow::showNewComponentPicker);
